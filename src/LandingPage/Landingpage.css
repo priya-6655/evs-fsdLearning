@@ -1,0 +1,40 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    overflow-X: hidden;
+}
+
+.root-img {
+    background-image: url("https://carnegie-production-assets.s3.amazonaws.com/static/media/images/GettyImages-India-elects-7-cover-9.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 70vh;
+    width: 100vw;
+    position: relative;
+}
+
+.backTheme {
+    background: linear-gradient(to bottom, #950303 0%, #f1f3f1 60%, #02460d 100%);
+    height: 400px;
+    width: 100vw;
+    margin-top: 10%;
+}
+
+.root-img1 {
+    background-image: url("https://img.freepik.com/free-vector/abstract-bright-gradient-background-minimal-style_1017-51545.jpg?semt=ais_items_boosted&w=740");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+    width: 100vw;
+}
+
+.itemLink li:hover {
+    color: #f4f2f2;
+}
+
+.prevElect p:hover {
+    color: #f4f2f2;
+    text-decoration: underline;
+}

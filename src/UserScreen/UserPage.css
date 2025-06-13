@@ -1,0 +1,25 @@
+#backpic2 {
+    background: url('https://images.mid-day.com/images/images/2023/jan/iStock-1143494079_d.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100vw;
+    height: 100vh;
+}
+
+.blur-bg {
+    position: relative;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.blur-bg::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, #950303 0%, #f1f3f1 60%, #02460d 100%);
+    filter: blur(8px);
+    z-index: -1;
+}

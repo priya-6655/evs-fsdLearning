@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+body {
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden;
+    padding-bottom: 60px;
+}
+
+.evs-logo {
+    width: 40px;
+    height: 40px;
+}
+
+#addTable {
+    background: url('https://www.shutterstock.com/image-illustration/india-independence-day-indian-flag-260nw-2345458309.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100vw;
+    height: 92.3vh;
+}
+
+.mediaBtn:hover::after {
+    content: "👉";
+}
+
+#backTheme {
+    background: url("https://i.pinimg.com/736x/33/7d/26/337d268166f27600f0467e91460d824f.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100vw;
+    height: 92.3vh;
+}
+
+#backpic {
+    background: url("https://images.moneycontrol.com/static-mcnews/2024/08/20240814105309_Daily-Horoscope-12.png?impolicy=website&width=770&height=431");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100vw;
+    height: 92.3vh;
+}
+
+.txt {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-style: italic;
+}
+
+#candiAdd {
+    background: url("https://e1.pxfuel.com/desktop-wallpaper/455/182/desktop-wallpaper-happy-india-independence-day-nature-flag-august-15th-india-background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100vw;
+    height: 92.3vh;
+}
+
+#themeIndia {
+    background: url("https://cdn.wallpapersafari.com/58/36/ZW7AnT.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100vw;
+    height: 92.3vh;
+}
+
+#indiaPic {
+    background: url("https://static.vecteezy.com/system/resources/thumbnails/020/746/062/small/indian-tricolor-abstract-waves-background-with-silhouette-famous-monument-of-india-header-or-banner-design-vector.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100vw;
+    height: 92.3vh;
+}
