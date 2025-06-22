@@ -86,7 +86,7 @@ function Partyadd() {
 
 
                     <div className="text-center mb-2 mt-5">
-                        <button className="btn btn-success w-25" type="submit">Submit</button>
+                        <button className="btn btn-success px-5" type="submit">Submit</button>
                     </div>
 
                 </form>

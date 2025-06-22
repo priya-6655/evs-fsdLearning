@@ -7,6 +7,8 @@ import About from '../LandingPage/About'
 import Contact from '../LandingPage/Contact'
 import AddElection from '../AdminScreen/AddElection'
 import UserMainpage from '../UserScreen/UserMainpage'
+import MailRegister from '../AdminLogin/MailRegister'
+import Forgotpass from '../UserLogin/Forgotpass'
 
 
 function FilePath() {
@@ -15,7 +17,9 @@ function FilePath() {
       <Routes>
         <Route path='/' element={<Landingpage />} />
         <Route path='/Login' element={<Login />} />
+        <Route path='/registerAdmin' element={<MailRegister />} />
         <Route path='/userlogin' element={<UserLogin />} />
+        <Route path='/forgotpassword' element={<Forgotpass />} />
         <Route path='/admin' element={<AddElection />} />
         <Route path='/about' element={<About />} />
         <Route path='/contact' element={<Contact />} />

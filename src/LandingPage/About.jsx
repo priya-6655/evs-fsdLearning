@@ -94,22 +94,22 @@ function About() {
         <h3 className='text-center'>India Vote envision a world that is Fair.</h3>
         <div className='row mt-5 d-flex justify-content-between mx-5 gap-1'>
 
-          <div className='col-3 align-items-center d-flex justify-content-center flex-column' style={{ borderRadius: "30px", cursor: "pointer" }}>
-            <img src='https://www.transparentpng.com/download/register-button/WqEkyx-register-button-circle-background.png' alt='register' style={{ width: "80px", height: "60px" }} />
+          <div className='col-lg-3 col-md-4 col-sm-12 align-items-center d-flex justify-content-center flex-column' style={{ borderRadius: "30px", cursor: "pointer" }}>
+            <img src='https://www.transparentpng.com/download/register-button/WqEkyx-register-button-circle-background.png' alt='register' style={{ width: "80px", height: "60px" }} className='img-fluid' />
             <p className='fs-4 fw-bold'>Register</p>
             <p className='fs-5 text-center'>It all starts here. Register to vote so you can participate.</p>
             <button type='button' className='btn btn-danger rounded-pill mt-3'>Register to vote</button>
           </div>
 
-          <div className='col-3 bg-primary align-items-center d-flex justify-content-center text-light flex-column p-4' style={{ borderRadius: "30px" }}>
-            <img src='https://higherlogicdownload.s3.amazonaws.com/HIGHERLOGICTHEMES/2e523b2b-3434-4811-9245-9ea01a2f0b6b/UploadedImages/HL_Theme_Demo_Images/learn.png' alt='learn' style={{ width: "80px", height: "60px", marginTop: "6%" }} />
+          <div className='col-lg-3 col-md-4 col-sm-12 bg-primary align-items-center d-flex justify-content-center text-light flex-column p-4' style={{ borderRadius: "30px" }}>
+            <img src='https://higherlogicdownload.s3.amazonaws.com/HIGHERLOGICTHEMES/2e523b2b-3434-4811-9245-9ea01a2f0b6b/UploadedImages/HL_Theme_Demo_Images/learn.png' alt='learn' style={{ width: "80px", height: "60px", marginTop: "6%" }} className='img-fluid' />
             <p className='fs-4 fw-bold'>Learn</p>
             <p className='fs-5 text-center'>Being an informed voter is a critical part of our democracy.</p>
             <button type='button' className='btn btn-danger rounded-pill'>Learn Election</button>
           </div>
 
-          <div className='col-3 align-items-center d-flex justify-content-center flex-column' style={{ borderRadius: "30px" }}>
-            <img src='https://cdn-icons-png.flaticon.com/512/9809/9809609.png' alt='vote' style={{ width: "80px", height: "60px" }} />
+          <div className='col-lg-3 col-md-4 col-sm-12 align-items-center d-flex justify-content-center flex-column' style={{ borderRadius: "30px" }}>
+            <img src='https://cdn-icons-png.flaticon.com/512/9809/9809609.png' alt='vote' style={{ width: "80px", height: "60px" }} className='img-fluid' />
             <p className='fs-4 fw-bold'>Vote</p>
             <p className='fs-5 text-center'>Find out where to vote and see what's on the ballot.</p>
             <button type='button' className='btn btn-danger rounded-pill mt-3'>In your state</button>
@@ -119,32 +119,32 @@ function About() {
         </div>
       </div>
 
-      <div className='col-12 mt-5'>
-        <p className='fs-4 fw-bold text-center'>Why India's voters are important</p>
-        <div className='row mt-5 d-flex justify-content-between mx-5 gap-1'>
+      <div className='container mt-5'>
+        <p className='fs-4 fw-bold text-center mb-4'>Why India's voters are important</p>
+        <div className='row g-4'>
 
-          <div className='col-2 d-flex justify-content-center flex-column'>
-            <img src='https://www.hindustantimes.com/ht-img/img/2023/11/30/550x309/Around-70-60--voters-exercise-franchise-as-polls-c_1701372722801.jpg' alt='peopleVote' style={{ width: "100%", height: "300px", borderRadius: "20px" }} />
-            <p className='fs-4 fw-bold text-center'>Fastest Growing Population</p>
-            <p className='text-center'>In the past two decades, India have become one of the fastest growing racial or ethnic groups in the world.</p>
+          <div className='col-12 col-lg-3 col-sm-6 d-flex flex-column align-items-center'>
+            <img src='https://www.hindustantimes.com/ht-img/img/2023/11/30/550x309/Around-70-60--voters-exercise-franchise-as-polls-c_1701372722801.jpg' alt='peopleVote' style={{ height: "300px", objectFit: 'cover', borderRadius: "20%" }} className='img-fluid' />
+            <p className='fs-4 fw-bold text-center mt-2'>Fastest Growing Population</p>
+            <p className='text-center px-2'>In the past two decades, India have become one of the fastest growing racial or ethnic groups in the world.</p>
           </div>
 
-          <div className='col-2 d-flex justify-content-center flex-column'>
-            <img src='https://cjp.org.in/wp-content/uploads/2023/10/Right-to-Vote.jpg' alt='peopleVote' style={{ width: "100%", height: "300px", borderRadius: "20px" }} />
-            <p className='fs-4 fw-bold text-center'>We Shape Elections</p>
-            <p className='text-center'>The india electorate is a formidable community with the power to shape and influence elections down the ticket throughout the country.</p>
+          <div className='col-12 col-lg-3 col-sm-6 d-flex flex-column align-items-center'>
+            <img src='https://cjp.org.in/wp-content/uploads/2023/10/Right-to-Vote.jpg' alt='peopleVote' style={{ height: "300px", objectFit: 'cover', borderRadius: "20%" }} className='img-fluid' />
+            <p className='fs-4 fw-bold text-center mt-2'>We Shape Elections</p>
+            <p className='text-center px-2'>The india electorate is a formidable community with the power to shape and influence elections down the ticket throughout the country.</p>
           </div>
 
-          <div className='col-2  d-flex justify-content-center flex-column'>
-            <img src='https://thebasicstructureconlaw.wordpress.com/wp-content/uploads/2024/07/image.png' alt='peopleVote' style={{ width: "100%", height: "300px", borderRadius: "20px" }} />
-            <p className='fs-4 fw-bold text-center'>Representation Matters</p>
-            <p className='text-center'>The decisions made by policymakers and our representatives at all levels of government impacts our day-to-day lives – from how much funding local schools get to policies around crime prevention and gun safety.</p>
+          <div className='col-12 col-lg-3 col-sm-6 d-flex flex-column align-items-center'>
+            <img src='https://thebasicstructureconlaw.wordpress.com/wp-content/uploads/2024/07/image.png' alt='peopleVote' style={{ height: "300px", objectFit: 'cover', borderRadius: "20%" }} className='img-fluid' />
+            <p className='fs-4 fw-bold text-center mt-2'>Representation Matters</p>
+            <p className='text-center px-2'>The decisions made by policymakers and our representatives at all levels of government impacts our day-to-day lives – from how much funding local schools get to policies around crime prevention and gun safety.</p>
           </div>
 
-          <div className='col-2 d-flex justify-content-center flex-column'>
-            <img src='https://www.brookings.edu/wp-content/uploads/2019/04/india-election-2019-001.jpg?quality=75' alt='peopleVote' style={{ width: "100%", height: "300px", borderRadius: "20px" }} />
-            <p className='fs-4 fw-bold text-center'>Economic Strength</p>
-            <p className='text-center'>The growth of india influence and impact extends beyond the political sphere, into all aspects of  society.</p>
+          <div className='col-12 col-lg-3 col-sm-6 d-flex flex-column align-items-center'>
+            <img src='https://www.brookings.edu/wp-content/uploads/2019/04/india-election-2019-001.jpg?quality=75' alt='peopleVote' style={{ height: "300px", objectFit: "cover", borderRadius: "20%" }} className='img-fluid' />
+            <p className='fs-4 fw-bold text-center mt-2'>Economic Strength</p>
+            <p className='text-center px-2'>The growth of india influence and impact extends beyond the political sphere, into all aspects of  society.</p>
           </div>
 
         </div>

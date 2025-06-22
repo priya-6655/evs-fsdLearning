@@ -12,6 +12,7 @@ import Partyview from './Partyview'
 import AddCandidate from './AddCandidate'
 import ViewCandidate from './ViewCandidate'
 import ViewCandiParty from './ViewCandiParty'
+import ViewVoterReq from './ViewVoterReq'
 
 
 function AddElection() {
@@ -28,6 +29,7 @@ function AddElection() {
 
     const [viewCandi, setviwedCandi] = useState([])
 
+    const [voterReq, setvoterReq] = useState([])
 
     const handleSelect = (path) => {
         closeSidebar();
@@ -68,11 +70,15 @@ function AddElection() {
         else if (path === 'ViewPartyCandi') {
             setselectPage('ViewPartyCandi')
         }
+        else if (path === 'viewVoterRequest') {
+            setvoterReq("viewVoterRequest")
+
+        }
     };
     return (
         <>
             {/* header */}
-            <div className="container-fluid bg-warning d-flex align-items-center justify-content-center">
+            <div className="container-fill bg-warning d-flex align-items-center justify-content-center">
                 <img src={logo} className="img-fluid evs-logo mx-1" alt="evsLogo" />
                 <p className="mx-auto mt-1 fs-4 fw-bold">Electronic Voting System</p>
             </div>
@@ -85,15 +91,15 @@ function AddElection() {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="d-flex ms-auto gap-3">
-                        <button type="button" className="btn btn-success px-2" onClick={() => navigate('/Login')}>Home</button>
-                        <button type="button" className="btn btn-success px-2">Logout</button>
+                        <button type="button" className="btn btn-success px-2" onClick={() => navigate('/')}>Home</button>
+                        <button type="button" className="btn btn-success px-2" onClick={() => navigate('/Login')}>Logout</button>
                     </div>
                 </div>
             </nav>
 
 
             {/* side navbar */}
-            <div className="container-fluid">
+            <div className="container-fill">
                 <div className="row flex-lg-wrap flex-md-wrap flex-sm-wrap">
 
                     {showSidebar && (
@@ -135,6 +141,7 @@ function AddElection() {
                                 <li>
                                     <select className="form-select mt-5 bg-dark text-danger" onChange={(e) => handleSelect(e.target.value)} defaultValue="" style={{ border: "none" }}>
                                         <option value="" disabled>Voter Request</option>
+                                        <option value="viewVoterRequest" >View</option>
                                     </select>
                                 </li>
 
@@ -170,6 +177,7 @@ function AddElection() {
                         {selectPage === 'CandiAssign' && <AddCandidate />}
                         {selectPage === 'CandiView' && <ViewCandidate dataCandidate={viewCandi} />}
                         {selectPage === 'ViewPartyCandi' && <ViewCandiParty />}
+                        {selectPage === 'viewVoterRequest' && <ViewVoterReq />}
                     </div>
 
 

@@ -89,7 +89,7 @@ function UserLogin() {
                                             <label htmlFor="check">Remember me</label>
                                         </div>
 
-                                        <p className='fs-6 m-0 text-primary text-decoration-underline pointlink'>Forgot Password?</p>
+                                        <p className='fs-6 m-0 text-primary text-decoration-underline pointlink' onClick={() => navigate('/forgotpassword')}>Forgot Password?</p>
 
                                     </div>
 
