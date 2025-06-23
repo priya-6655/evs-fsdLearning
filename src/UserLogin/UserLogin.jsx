@@ -3,9 +3,12 @@ import './UserLogin.css'
 import { useNavigate } from 'react-router-dom'
 import logo from '../assets/evote-logo.png'
 import UserNavbar from './UserNavbar'
+import { useDispatch } from 'react-redux'
+import { VOTER_TYPES } from '../Store/ActionTypes/VoterTypes'
 
 function UserLogin() {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const [userData, setuserData] = useState(false)
     const [hidelog, sethidelog] = useState(true)
     const [Voter, setVoter] = useState('')
@@ -19,8 +22,17 @@ function UserLogin() {
 
     function getUser() {
         if (Voter === 'user' && password === 'user') {
+
+            const loginAction = {
+                type: VOTER_TYPES.VOTER_LOGIN,
+                payload: { name: Voter, role: "voter" }
+            }
+            console.log("Dispatching login action:", loginAction);
+
+            dispatch(loginAction);
             navigate('/user')
         }
+
         else {
             alert("You are not authorized person")
         }

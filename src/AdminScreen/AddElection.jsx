@@ -13,10 +13,14 @@ import AddCandidate from './AddCandidate'
 import ViewCandidate from './ViewCandidate'
 import ViewCandiParty from './ViewCandiParty'
 import ViewVoterReq from './ViewVoterReq'
+import { useDispatch } from 'react-redux'
+import { USER_TYPES } from '../Store/ActionTypes/UserTypes'
 
 
 function AddElection() {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const [selectPage, setselectPage] = useState("image")
 
     const [showSidebar, setShowSidebar] = useState(false)
@@ -71,8 +75,7 @@ function AddElection() {
             setselectPage('ViewPartyCandi')
         }
         else if (path === 'viewVoterRequest') {
-            setvoterReq("viewVoterRequest")
-
+            setselectPage("viewVoterRequest")
         }
     };
     return (
@@ -92,7 +95,10 @@ function AddElection() {
                     </button>
                     <div className="d-flex ms-auto gap-3">
                         <button type="button" className="btn btn-success px-2" onClick={() => navigate('/')}>Home</button>
-                        <button type="button" className="btn btn-success px-2" onClick={() => navigate('/Login')}>Logout</button>
+                        <button type="button" className="btn btn-success px-2" onClick={() => {
+                            dispatch({ type: USER_TYPES.USER_LOGOUT })
+                            navigate('/Login')
+                        }}>Logout</button>
                     </div>
                 </div>
             </nav>
@@ -168,7 +174,6 @@ function AddElection() {
                             <img src="https://images.deccanherald.com/deccanherald%2F2024-04%2F7a8efaab-5f5f-4cb3-a176-545fb58cfebf%2FPTI04_20_2024_000068B.jpg?rect=0%2C0%2C3938%2C2215&auto=format%2Ccompress&fmt=webp&fit=max&format=webp&q=70&w=400&dpr=2"
                                 alt="imgGroup" className="img-fluid" style={{ objectFit: "cover", height: "80%", width: "100vw" }} />
                         )}
-
                         {selectPage === 'add' && <AddData />}
                         {selectPage === 'view' && <ViewData data={viewedData} />}
                         {selectPage === 'viewall' && <Viewall />}
@@ -179,12 +184,8 @@ function AddElection() {
                         {selectPage === 'ViewPartyCandi' && <ViewCandiParty />}
                         {selectPage === 'viewVoterRequest' && <ViewVoterReq />}
                     </div>
-
-
                     <MediaCom />
                     <Footer />
-
-
                 </div>
             </div >
         </>

@@ -2,9 +2,12 @@ import React, { useState } from 'react'
 import './Login.css'
 import Logo from '../assets/evote-logo.png';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
+import { USER_TYPES } from '../Store/ActionTypes/UserTypes';
 
 function Login() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [user, setuser] = useState("")
     const [pass, setpass] = useState("")
     const [showPass, setshowPass] = useState(false)
@@ -15,10 +18,9 @@ function Login() {
     }
 
     const loginForm = () => {
-
         if (user) {
-
-            if (user === "Admin" && pass === "Admin") {
+            if (user === "Admin" && pass === "Admin123") {
+                dispatch({ type: USER_TYPES.USER_LOGIN, payload: { userName: user, role: 'Admin' } })
                 navigate("/admin");
             }
             else {

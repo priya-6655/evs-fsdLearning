@@ -1,7 +1,13 @@
 import React, { useRef, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { VOTER_TYPES } from '../Store/ActionTypes/VoterTypes';
 
 function VoterReq() {
-    const [voterData, setvoterData] = useState({ Userid: "", Username: "", Userage: "", Usergender: "", Userconsti: "", Useraddress: "", Userphoto: "" })
+    const dispatch = useDispatch();
+
+    const [voterData, setvoterData] = useState({
+        Userid: "", Username: "", Userage: "", Usergender: "", Userconsti: "", Useraddress: "", Userphoto: ""
+    })
     const fileRef = useRef(null)
 
     function getVoter(e) {
@@ -10,6 +16,7 @@ function VoterReq() {
         saveVoter.push(voterData)
         localStorage.setItem('voterDatas', JSON.stringify(saveVoter))
 
+        dispatch({ type: VOTER_TYPES.SET_VOTER_FORM, payload: voterData })
         alert("Request Send Successfully!")
 
         setvoterData({
@@ -115,7 +122,8 @@ function VoterReq() {
                             </div>
                         </div>
 
-                        <div className='row mb-3'>
+                        <div className='row mb-3'
+                        >
                             <button type='submit' className='btn btn-success rounded-pill w-50 mx-auto'>Submit</button>
                         </div>
                     </div>

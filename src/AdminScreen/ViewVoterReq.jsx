@@ -1,14 +1,31 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { VOTER_TYPES } from '../Store/ActionTypes/VoterTypes';
 
 function ViewVoterReq() {
     const [viewreq, setviewreq] = useState([])
+    const { voterForm } = useSelector(state => state.voter);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        const voterdata = JSON.parse(localStorage.getItem('voterDatas')) || []
-        setviewreq(voterdata)
-        console.log(viewreq)
-    }, [])
+        // const voterdata = JSON.parse(localStorage.getItem('voterDatas')) || []
+        setviewreq(voterForm)
+        // console.log(viewreq)
+    })
 
+    const handleVoter = (voter) => {
+        const updatedVoterInfo = voterForm.map((item) => {
+            if (item.Userid === voter.Userid) {
+                return {
+                    ...voter,
+                    passedStatus: 'Admin Viewed',
+                    approvedStatus: 'Passed to EO'
+                }
+            }
+            return item
+        })
+        dispatch({ type: VOTER_TYPES.UPDATE_VOTER_INFO, payload: updatedVoterInfo })
+    }
 
     return (
         <>
@@ -23,7 +40,7 @@ function ViewVoterReq() {
                             <td>Gender</td>
                             <td>Constituency</td>
                             <td>Address</td>
-                            <td>Photo</td>
+                            <td>CTA</td>
                         </tr>
                     </thead>
 
@@ -37,7 +54,11 @@ function ViewVoterReq() {
                                 <td>{item.Userconsti}</td>
                                 <td>{item.Useraddress}</td>
                                 <td>
-                                    <img src={item.Userphoto} alt="user" width="60" height="60" style={{ objectFit: "cover" }} />
+                                    <button
+                                        onClick={() => handleVoter(item)}
+                                    >
+                                        Pass to EO
+                                    </button>
                                 </td>
                             </tr>
                         ))}

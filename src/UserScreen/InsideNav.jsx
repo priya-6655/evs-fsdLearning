@@ -10,7 +10,7 @@ function InsideNav() {
     const [showReqest, setshowRequest] = useState()
     return (
         <>
-            <nav className="navbar navbar-expand-sm navbar-dark bg-dark position-fixed w-100 mt-5">
+            <nav className="navbar navbar-expand-sm navbar-dark bg-dark w-100">
 
                 <div className="container-fluid">
                     <button type="button" className="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myheader" aria-controls="myheader" aria-expanded="false" aria-label="Toggle navigation">

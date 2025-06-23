@@ -11,7 +11,7 @@ function UserMainpage() {
         <>
             <div className="container-fluid p-0 position-relative mb-5" id='backpic2'>
 
-                <div className="container-fluid bg-warning d-flex align-items-center justify-content-center position-fixed">
+                <div className="container-fluid bg-warning d-flex align-items-center justify-content-center">
                     <img src={logo} className="img-fluid evote mx-4" />
                     <p className="mx-auto mt-1 fs-5 fw-bold">Electronic Voting System</p>
                 </div>
