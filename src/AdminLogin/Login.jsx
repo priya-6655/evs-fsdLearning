@@ -17,8 +17,9 @@ function Login() {
 
     const apiToChangePassword = async (e) => {
         // navigate('/ResetPassword')
-        e.preventDefault()
-        axios.post('http://localhost:3000/admin/resetPassword', { email: resetEmail }).then((response) => {
+        e.preventDefault();
+        const baseURL = import.meta.env.VITE_API_BASE_URL;
+        axios.post(`${baseURL}/admin/resetPassword`, { email: resetEmail }).then((response) => {
             alert(response.data.message)
             setResetEmail('')
         }).catch((error) => {
@@ -37,7 +38,8 @@ function Login() {
             "pass": pass
         }
         try {
-            const response = await axios.post('http://localhost:3000/admin/adminLogin', data)
+            const baseURL = import.meta.env.VITE_API_BASE_URL;
+            const response = await axios.post(`${baseURL}/admin/adminLogin`, data)
             if (response.status === 200) {
                 const { userName, role } = response.data
                 dispatch({ type: USER_TYPES.USER_LOGIN, payload: { userName, role } })

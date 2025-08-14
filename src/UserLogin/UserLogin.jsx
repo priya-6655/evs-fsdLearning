@@ -15,7 +15,7 @@ function UserLogin() {
     const [Voter, setVoter] = useState('')
     const [password, setpassword] = useState('')
     const [regUser, setregUser] = useState({ firstName: "", lastName: "", userDOB: "", gender: "", street: "", location: "", city: "", state: "", pincode: "", mobile: "", email: "", password })
-
+    const baseURL = import.meta.env.VITE_API_BASE_URL;
     function getuserData() {
         sethidelog(false)
         setuserData(true)
@@ -25,7 +25,7 @@ function UserLogin() {
         e.preventDefault()
 
         try {
-            const res = await axios.post('http://localhost:3000/user/login', {
+            const res = await axios.post(`${baseURL}/user/login`, {
                 userid: Voter,
                 password
             })
@@ -51,7 +51,7 @@ function UserLogin() {
 
         try {
             console.time("register");
-            const response = await axios.post('http://localhost:3000/user/userReg', regUser)
+            const response = await axios.post(`${baseURL}/user/userReg`, regUser)
             console.timeEnd("register");
             alert(response.data.message)
             setregUser({

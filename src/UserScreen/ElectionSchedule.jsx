@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 
 function ElectionSchedule({ searchQuery }) {
     const { userid } = useSelector(state => state.voter.userData);
+    const baseURL = import.meta.env.VITE_API_BASE_URL;
 
     const [upcoming, setUpcoming] = useState([])
     const [vote, setVote] = useState([])
@@ -13,7 +14,7 @@ function ElectionSchedule({ searchQuery }) {
     const [voterList, setvoterList] = useState([])
 
     useEffect(() => {
-        axios.get('http://localhost:3000/election/getUpcomingElection')
+        axios.get(`${baseURL}/election/getUpcomingElection`)
             .then(res => setUpcoming(res.data.data))
             .catch(error => console.log(error))
     }, [])
@@ -25,7 +26,7 @@ function ElectionSchedule({ searchQuery }) {
 
     const getVoteDetails = (electionid) => {
         setViewVote(true)
-        axios.get(`http://localhost:3000/voter/votingDetails/${electionid}`)
+        axios.get(`${baseURL}/voter/votingDetails/${electionid}`)
             .then(res => {
                 setVote(res.data.data)
             })
@@ -40,7 +41,7 @@ function ElectionSchedule({ searchQuery }) {
     }, [])
 
     const getVoterListById = () => {
-        axios.get(`http://localhost:3000/voter/myVotersList/${userid}`)
+        axios.get(`${baseURL}/voter/myVotersList/${userid}`)
             .then((res) => {
                 setvoterList(res.data?.data)
             })
@@ -69,7 +70,7 @@ function ElectionSchedule({ searchQuery }) {
         console.log("Sending vote data:", data);
 
 
-        axios.post('http://localhost:3000/electionResults/addVote', data).then(response => {
+        axios.post(`${baseURL}/electionResults/addVote`, data).then(response => {
             console.log('response', response);
             setVoteBtn(true);
         }).catch(error => {

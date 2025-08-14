@@ -9,13 +9,13 @@ function UncountedResults() {
     const [selectedDistrict, setSelectedDistrict] = useState('')
     const [selectedParty, setSelectedParty] = useState('')
     const navigate = useNavigate()
-
+    const baseURL = import.meta.env.VITE_API_BASE_URL;
     useEffect(() => {
         fetchAPI();
     }, [])
 
     const fetchAPI = () => {
-        axios.get('http://localhost:3000/election/getUpcomingElection')
+        axios.get(`${baseURL}/election/getUpcomingElection`)
             .then(res => {
                 setElections(res.data.data)
             })
@@ -28,7 +28,7 @@ function UncountedResults() {
         setSelectedDistrict('')
         setSelectedParty('')
 
-        axios.get(`http://localhost:3000/electionResults/getResults/${id}`)
+        axios.get(`${baseURL}/electionResults/getResults/${id}`)
             .then(res => setResults(res.data))
             .catch(err => console.log(err))
     }

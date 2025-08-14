@@ -2,12 +2,13 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
 function ViewCandi() {
+    const baseURL = import.meta.env.VITE_API_BASE_URL;
     const [electName, setElectname] = useState([])
     const [selectedElect, setSelectedElect] = useState('')
     const [candidates, setCandidates] = useState([])
 
     useEffect(() => {
-        axios.get('http://localhost:3000/election/getUpcomingElection')
+        axios.get(`${baseURL}/election/getUpcomingElection`)
             .then(res => {
                 setElectname(res.data.data)
             })
@@ -23,7 +24,7 @@ function ViewCandi() {
             return
         }
 
-        axios.get(`http://localhost:3000/voter/electionWiseCandiInfo/${selectedElect}`)
+        axios.get(`${baseURL}/voter/electionWiseCandiInfo/${selectedElect}`)
             .then(res => {
                 setCandidates(res.data.data)
             })

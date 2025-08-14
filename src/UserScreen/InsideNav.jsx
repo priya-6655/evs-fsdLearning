@@ -7,10 +7,9 @@ import ViewCandi from './ViewCandi'
 import axios from 'axios'
 import ElectionResult from './ElectionResult'
 
-
-
 function InsideNav() {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const baseURL = import.meta.env.VITE_API_BASE_URL;
     const [showReqest, setshowRequest] = useState("")
 
     const [showUserInfo, setShowUserInfo] = useState(false)
@@ -27,7 +26,6 @@ function InsideNav() {
         }
     }
 
-
     const CloseBtn = async (e) => {
         e.preventDefault()
         if (!setUserInfo) {
@@ -38,7 +36,7 @@ function InsideNav() {
 
     const handleMyProfile = async () => {
         try {
-            const res = await axios.get("http://localhost:3000/user/userProfile", {
+            const res = await axios.get(`${baseURL}/user/userProfile`, {
                 headers: {
                     Authorization: `Bearer ${sessionStorage.getItem('userToken')}`
                 }

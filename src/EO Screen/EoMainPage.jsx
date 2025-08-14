@@ -15,7 +15,7 @@ function EoMainPage() {
     const [elections, setElections] = useState([])
     const [selectedElectionId, setSelectedElectionId] = useState('')
     const [activeTab, setActiveTab] = useState('');
-
+    const baseURL = import.meta.env.VITE_API_BASE_URL;
     useEffect(() => {
         getRequestBystatus();
         fetchAPI()
@@ -35,7 +35,7 @@ function EoMainPage() {
 
 
     const fetchAPI = () => {
-        axios.get('http://localhost:3000/election/getUpcomingElection')
+        axios.get(`${baseURL}/election/getUpcomingElection`)
             .then(res => {
                 setElections(res.data.data)
             })
@@ -43,7 +43,7 @@ function EoMainPage() {
     }
 
     const getElectionInfo = (id) => {
-        axios.get(`http://localhost:3000/electionResults/getCountedResults/${id}`)
+        axios.get(`${baseURL}/electionResults/getCountedResults/${id}`)
             .then(res => {
                 console.log('res', res)
                 setVoteCounts(res.data);
@@ -52,7 +52,7 @@ function EoMainPage() {
     }
 
     const getRequestBystatus = () => {
-        axios.post(`http://localhost:3000/voter/getRequestBystatus`, { passedStatus: ['3'] })
+        axios.post(`${baseURL}/voter/getRequestBystatus`, { passedStatus: ['3'] })
             .then(response => {
                 setviewreq(response.data.data)
             })
@@ -67,7 +67,7 @@ function EoMainPage() {
 
     const handleVoter = (voter, status) => {
         const request = { userid: voter.userid, passedStatus: voter.passedStatus, approvedStatus: status }
-        axios.put('http://localhost:3000/voter/changeVoterStatus', request)
+        axios.put(`${baseURL}/voter/changeVoterStatus`, request)
             .then(response => {
                 getRequestBystatus()
                 console.log(response)

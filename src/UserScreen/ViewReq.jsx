@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux'
 
 function ViewReq() {
+    const baseURL = import.meta.env.VITE_API_BASE_URL;
     const { userid } = useSelector(state => state.voter.userData);
     const [voterList, setvoterList] = useState([])
 
@@ -11,7 +12,7 @@ function ViewReq() {
     }, [])
 
     const getVoterListById = () => {
-        axios.get(`http://localhost:3000/voter/myVotersList/${userid}`)
+        axios.get(`${baseURL}/voter/myVotersList/${userid}`)
             .then((res) => {
                 setvoterList(res.data?.data)
             })

@@ -14,9 +14,10 @@ function MailRegister() {
     }
 
     const handleRegister = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
+        const baseURL = import.meta.env.VITE_API_BASE_URL;
         try {
-            const res = await axios.post('http://localhost:3000/api/register', register)
+            const res = await axios.post(`${baseURL}/api/register`, register)
             alert(res.data.message);
             navigate('/Login')
 

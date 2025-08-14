@@ -5,10 +5,10 @@ function Viewall() {
     const [Alldata, setAlldata] = useState([])
     const [startDate, setstartDate] = useState('')
     const [endDate, setendDate] = useState('')
-
+    const baseURL = import.meta.env.VITE_API_BASE_URL;
     const findElect = async () => {
         try {
-            const response = await axios.post('http://localhost:3000/election/filterElection', {
+            const response = await axios.post(`${baseURL}/election/filterElection`, {
                 startDate,
                 endDate
             });

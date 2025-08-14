@@ -6,13 +6,14 @@ function ElectionResult() {
     const [resultPublished, setResultPublished] = useState(false);
     const [elections, setElections] = useState([])
     const [selectedElectionId, setSelectedElectionId] = useState('')
+    const baseURL = import.meta.env.VITE_API_BASE_URL;
 
     useEffect(() => {
         fetchAPI();
     }, [])
 
     const fetchAPI = () => {
-        axios.get('http://localhost:3000/election/getUpcomingElection')
+        axios.get(`${baseURL}/election/getUpcomingElection`)
             .then(res => {
                 setElections(res.data.data)
             })
@@ -20,7 +21,7 @@ function ElectionResult() {
     }
 
     const getElectionInfo = (id) => {
-        axios.get(`http://localhost:3000/electionResults/getCountedResults/${id}`)
+        axios.get(`${baseURL}/electionResults/getCountedResults/${id}`)
             .then(res => {
                 console.log('res', res)
                 setVoteCounts(res.data);

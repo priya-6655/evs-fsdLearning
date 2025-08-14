@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom'
 function ViewCandidate() {
     const [viewCandi, setViewCandi] = useState([])
     const navigate = useNavigate()
-
+    const baseURL = import.meta.env.VITE_API_BASE_URL;
     useEffect(() => {
-        axios.get('http://localhost:3000/candidate/viewCandidate')
+        axios.get(`${baseURL}/candidate/viewCandidate`)
             .then(res => setViewCandi(res.data.data))
             .catch(error => console.log(error))
     }, [])
@@ -15,8 +15,8 @@ function ViewCandidate() {
     const handleDelete = async (candidateId) => {
         if (window.confirm("Are you sure you want to delete this candidate?")) {
             try {
-                await axios.delete(`http://localhost:3000/candidate/deleteCandi/${candidateId}`)
-                const res = await axios.get('http://localhost:3000/candidate/viewCandidate')
+                await axios.delete(`${baseURL}/candidate/deleteCandi/${candidateId}`)
+                const res = await axios.get(`${baseURL}/candidate/viewCandidate`)
                 setViewCandi(res.data.data)
                 alert("Candidate deleted successfully");
 

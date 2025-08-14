@@ -3,14 +3,14 @@ import axios from 'axios';
 
 function ViewVoterReq() {
     const [viewreq, setviewreq] = useState([])
-
+    const baseURL = import.meta.env.VITE_API_BASE_URL;
 
     useEffect(() => {
         fetchVoterList()
     }, [])
 
     const fetchVoterList = () => {
-        axios.post(`http://localhost:3000/voter/getRequestBystatus`, { passedStatus: ['1', '2'] })
+        axios.post(`${baseURL}/voter/getRequestBystatus`, { passedStatus: ['1', '2'] })
             .then(response => {
                 setviewreq(response.data.data)
             })
@@ -18,7 +18,7 @@ function ViewVoterReq() {
 
     const handleVoter = (voter, status) => {
         const request = { userid: voter.userid, passedStatus: status, approvedStatus: null }
-        axios.put('http://localhost:3000/voter/changeVoterStatus', request)
+        axios.put(`${baseURL}/voter/changeVoterStatus`, request)
             .then(response => {
                 fetchVoterList()
                 console.log(response)

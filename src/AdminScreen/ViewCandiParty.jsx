@@ -6,9 +6,9 @@ function ViewCandiParty() {
     const [partylist, setpartylist] = useState([])
     const [selectedParty, setselectedParty] = useState('')
     const [filteredData, setFilteredData] = useState([])
-
+    const baseURL = import.meta.env.VITE_API_BASE_URL;
     useEffect(() => {
-        axios.get('http://localhost:3000/party/viewParty').then(res => {
+        axios.get(`${baseURL}/party/viewParty`).then(res => {
             setpartylist(res.data.data)
         }).catch(err => {
             console.log(err)
@@ -16,7 +16,7 @@ function ViewCandiParty() {
     }, [])
 
     function partyWiseCandi() {
-        axios.post("http://localhost:3000/candidateDetails/partyWiseCandi", { partyKey: selectedParty })
+        axios.post(`${baseURL}/candidateDetails/partyWiseCandi`, { partyKey: selectedParty })
             .then(res => {
                 console.log("Filltered Candidates:", res.data.data)
                 setFilteredData(res.data.data)

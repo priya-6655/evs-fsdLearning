@@ -7,10 +7,10 @@ import { useNavigate } from 'react-router-dom'
 function Forgotpass() {
     const [getMail, setGetMail] = useState("")
     const navigate = useNavigate()
-
+    const baseURL = import.meta.env.VITE_API_BASE_URL;
     function msgToMailBox(e) {
         e.preventDefault()
-        axios.post('http://localhost:3000/user/resetUserPassword', { email: getMail }).then((response) => {
+        axios.post(`${baseURL}/user/resetUserPassword`, { email: getMail }).then((response) => {
             alert(response.data.message)
             setGetMail('')
         }).catch((error) => {

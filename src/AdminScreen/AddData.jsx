@@ -12,7 +12,7 @@ function AddData() {
     const [constituenciesList, setConstituenciesList] = useState([])
 
     const navigate = useNavigate()
-
+    const baseURL = import.meta.env.VITE_API_BASE_URL;
     useEffect(() => {
         if (editElect) {
             setdata(editElect)
@@ -24,7 +24,7 @@ function AddData() {
 
     const getDistrict = async () => {
         try {
-            const result = await axios.get("http://localhost:3000/admin/districtList")
+            const result = await axios.get(`${baseURL}/admin/districtList`)
             setDistrictList(result.data.districtList)
             setdata({
                 ...data,
@@ -38,7 +38,7 @@ function AddData() {
 
     const getConstituencies = async (id) => {
         try {
-            const result = await axios.get(`http://localhost:3000/admin/constituencyList/${id}`)
+            const result = await axios.get(`${baseURL}/admin/constituencyList/${id}`)
             setConstituenciesList(result.data.results)
             console.log(result)
         } catch (error) {
@@ -64,12 +64,12 @@ function AddData() {
         try {
             if (editElect && editElect.electionid) {
                 const id = editElect.electionid
-                const res = await axios.put(`http://localhost:3000/election/editElect/${id}`, data)
+                const res = await axios.put(`${baseURL}/election/editElect/${id}`, data)
                 alert(res.data.message)
                 navigate('/admin')
             }
             else {
-                const res = await axios.post('http://localhost:3000/election/addelection', data)
+                const res = await axios.post('${baseURL}/election/addelection', data)
                 alert(res.data.message)
                 setdata({
                     electName: "",

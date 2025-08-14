@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom'
 function ViewData() {
     const [addElect, setaddElect] = useState([])
     const navigate = useNavigate()
-
+    const baseURL = import.meta.env.VITE_API_BASE_URL;
     useEffect(() => {
-        axios.get('http://localhost:3000/election/getUpcomingElection')
+        axios.get(`${baseURL}/election/getUpcomingElection`)
             .then(res => setaddElect(res.data.data))
             .catch(error => console.log(error))
     }, [])
@@ -15,8 +15,8 @@ function ViewData() {
     const handleDelete = async (electionid) => {
         if (window.confirm("Are you sure you want to delete this election?")) {
             try {
-                await axios.delete(`http://localhost:3000/election/deleteElect/${electionid}`)
-                const res = await axios.get('http://localhost:3000/election/getUpcomingElection')
+                await axios.delete(`${baseURL}/election/deleteElect/${electionid}`)
+                const res = await axios.get(`${baseURL}/election/getUpcomingElection`)
                 setaddElect(res.data.data)
                 alert("Election delete successfully")
             } catch (error) {

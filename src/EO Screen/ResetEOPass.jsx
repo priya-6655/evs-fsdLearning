@@ -7,7 +7,7 @@ function ResetEOPass() {
     const [searchParams] = useSearchParams()
     const token = searchParams.get('token')
     const navigate = useNavigate()
-
+    const baseURL = import.meta.env.VITE_API_BASE_URL;
     useEffect(() => {
         if (!token) {
             setTokenVallid(false)
@@ -37,7 +37,7 @@ function ResetEOPass() {
         }
 
         try {
-            const response = await fetch("http://localhost:3000/ELectoral/EOForgotPage", {
+            const response = await fetch(`${baseURL}/ELectoral/EOForgotPage`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"

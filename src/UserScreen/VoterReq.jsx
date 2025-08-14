@@ -12,8 +12,7 @@ function VoterReq() {
     const [constituencyList, setConstituenciesList] = useState([])
 
     const fileRef = useRef(null)
-
-
+    const baseURL = import.meta.env.VITE_API_BASE_URL;
 
     useEffect(() => {
 
@@ -23,7 +22,7 @@ function VoterReq() {
 
     const getDistrict = async () => {
         try {
-            const result = await axios.get("http://localhost:3000/admin/districtList")
+            const result = await axios.get(`${baseURL}/admin/districtList`)
             setDistrictList(result.data.districtList)
             setvoterData({
                 ...voterData,
@@ -37,7 +36,7 @@ function VoterReq() {
 
     const getConstituencies = async (id) => {
         try {
-            const result = await axios.get(`http://localhost:3000/admin/constituencyList/${id}`)
+            const result = await axios.get(`${baseURL}/admin/constituencyList/${id}`)
             setConstituenciesList(result.data.results)
             console.log(result)
         } catch (error) {
@@ -73,7 +72,7 @@ function VoterReq() {
             photo: voterData.photo
         }
 
-        axios.post("http://localhost:3000/voter/voterReq", payload)
+        axios.post(`${baseURL}/voter/voterReq`, payload)
             .then((res) => {
                 console.log(res.data)
                 alert("Request send successfully")

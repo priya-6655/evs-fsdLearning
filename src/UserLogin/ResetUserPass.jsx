@@ -7,7 +7,7 @@ function ResetUserPass() {
     const [searchParams] = useSearchParams()
     const token = searchParams.get('token')
     const navigate = useNavigate()
-
+    const baseURL = import.meta.env.VITE_API_BASE_URL;
 
     useEffect(() => {
         if (!token) {
@@ -38,7 +38,7 @@ function ResetUserPass() {
         }
 
         try {
-            const response = await fetch("http://localhost:3000/user/forgotPassword", {
+            const response = await fetch(`${baseURL}/user/forgotPassword`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"

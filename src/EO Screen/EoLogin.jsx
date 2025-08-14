@@ -11,12 +11,11 @@ function EoLogin() {
     const [passIcon, setPassIcon] = useState(false)
     const [forgotPage, setforgotPage] = useState(false)
     const [forgotInputData, setForgotInputData] = useState("")
-
-
+    const baseURL = import.meta.env.VITE_API_BASE_URL;
 
     const handleLogin = async () => {
         try {
-            const res = await axios.post('http://localhost:3000/ELectoral/EOLogin', ElectoralName)
+            const res = await axios.post(`${baseURL}/ELectoral/EOLogin`, ElectoralName)
             if (res.status === 200) {
                 navigate('/EoPage')
             }
@@ -37,7 +36,7 @@ function EoLogin() {
 
     const handleForgetPass = async (e) => {
         e.preventDefault()
-        axios.post('http://localhost:3000/ELectoral/resetPassword', { email: forgotInputData }).then((response) => {
+        axios.post(`${baseURL}/ELectoral/resetPassword`, { email: forgotInputData }).then((response) => {
             alert(response.data.message)
             setForgotInputData('')
         }).catch((error) => {

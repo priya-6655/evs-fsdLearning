@@ -8,6 +8,7 @@ function Partyadd() {
     const [partyData, setpartData] = useState({ partyName: "", leader: "", symbol: "" })
     const [symbolReader, setsymbolReder] = useState(false)
     const navigate = useNavigate()
+    const baseURL = import.meta.env.VITE_API_BASE_URL;
     useEffect(() => {
         if (editData) {
             console.log("Edit data", editData)
@@ -57,12 +58,12 @@ function Partyadd() {
         try {
             if (editData && editData.partyid) {
                 const id = editData.partyid
-                const response = await axios.put(`http://localhost:3000/party/updateParty/${id}`, partyData)
+                const response = await axios.put(`${baseURL}/party/updateParty/${id}`, partyData)
                 alert(response.data.message);
                 navigate('/admin')
 
             } else {
-                const response = await axios.post('http://localhost:3000/party/addParty', partyData, {
+                const response = await axios.post(`${baseURL}/party/addParty`, partyData, {
                     headers: {
                         'Content-Type': 'application/json'
                     }

@@ -22,13 +22,14 @@ function AddCandidate() {
     })
     const [districtList, setDistrictList] = useState([])
     const [constituenciesList, setConstituenciesList] = useState([])
+    const baseURL = import.meta.env.VITE_API_BASE_URL;
 
     useEffect(() => {
-        axios.get('http://localhost:3000/election/getUpcomingElection').then(res => {
+        axios.get(`${baseURL}/election/getUpcomingElection`).then(res => {
             setElection(res.data.data);
         });
 
-        axios.get('http://localhost:3000/party/viewParty').then(res => {
+        axios.get(`${baseURL}/party/viewParty`).then(res => {
             setParties(res.data.data);
         });
         if (editCandi) {
@@ -41,7 +42,7 @@ function AddCandidate() {
 
     const getDistrict = async () => {
         try {
-            const result = await axios.get("http://localhost:3000/admin/districtList")
+            const result = await axios.get(`${baseURL}/admin/districtList`)
             setDistrictList(result.data.districtList)
             setCandiData({
                 ...addCandiData,
@@ -55,7 +56,7 @@ function AddCandidate() {
 
     const getConstituencies = async (id) => {
         try {
-            const result = await axios.get(`http://localhost:3000/admin/constituencyList/${id}`)
+            const result = await axios.get(`${baseURL}/admin/constituencyList/${id}`)
             setConstituenciesList(result.data.results)
             console.log(result)
         } catch (error) {
@@ -82,12 +83,12 @@ function AddCandidate() {
         try {
             if (editCandi && editCandi.candidateId) {
                 const id = editCandi.candidateId
-                const res = await axios.put(`http://localhost:3000/candidate/editCandidate/${id}`, addCandiData)
+                const res = await axios.put(`${baseURL}/candidate/editCandidate/${id}`, addCandiData)
                 alert(res.data.message)
                 navigate('/admin')
 
             } else {
-                const response = await axios.post('http://localhost:3000/candidate/addCandidate', addCandiData);
+                const response = await axios.post('${baseURL}/candidate/addCandidate', addCandiData);
                 alert(response.data.message)
                 setCandiData({
                     candiName: "",

@@ -9,15 +9,15 @@ function CountedResult() {
     const [voteCounts, setVoteCounts] = useState([]);
     const [isPublished, setIsPublished] = useState(false);
     const navigate = useNavigate()
-
+    const baseURL = import.meta.env.VITE_API_BASE_URL;
     useEffect(() => {
-        axios.get(`http://localhost:3000/electionResults/getCountedResults/${electionId}`)
+        axios.get(`${baseURL}/electionResults/getCountedResults/${electionId}`)
             .then(res => setVoteCounts(res.data))
             .catch(err => console.log(err));
     }, [electionId]);
 
     const handlePublishResult = () => {
-        axios.put(`http://localhost:3000/electionResults/publishedResult/${electionId}`)
+        axios.put(`${baseURL}/electionResults/publishedResult/${electionId}`)
             .then(() => {
                 alert("Result successfully published")
                 setIsPublished(true);

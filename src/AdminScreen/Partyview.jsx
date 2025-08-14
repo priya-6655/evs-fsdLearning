@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom'
 function Partyview() {
     const [viewPartydata, setviewPartydata] = useState([])
     const navigate = useNavigate()
-
+    const baseURL = import.meta.env.VITE_API_BASE_URL;
     useEffect(() => {
-        axios.get("http://localhost:3000/party/viewParty")
+        axios.get(`${baseURL}/party/viewParty`)
             .then(res => setviewPartydata(res.data.data))
             .catch(err => console.log(err))
     }, [])
@@ -15,8 +15,8 @@ function Partyview() {
     const handleDelete = async (partyid) => {
         if (window.confirm("Are you sure you want to delete this party?")) {
             try {
-                await axios.delete(`http://localhost:3000/party/deleteParty/${partyid}`)
-                const res = await axios.get('http://localhost:3000/party/viewParty')
+                await axios.delete(`${baseURL}/party/deleteParty/${partyid}`)
+                const res = await axios.get(`${baseURL}/party/viewParty`)
                 setviewPartydata(res.data.data)
                 alert("Party deleted successfully")
             } catch (error) {
