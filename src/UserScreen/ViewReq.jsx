@@ -1,19 +1,40 @@
-import React, { useEffect, useState } from 'react'
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux'
 
 function ViewReq() {
-    const { voterForm } = useSelector(state => state.voter);
+    const { userid } = useSelector(state => state.voter.userData);
     const [voterList, setvoterList] = useState([])
 
     useEffect(() => {
-        // const data = JSON.parse(localStorage.getItem('voterDatas')) || []
-        // console.log('voterForm', voterForm)
-        setvoterList(voterForm)
-    })
+        getVoterListById();
+    }, [])
+
+    const getVoterListById = () => {
+        axios.get(`http://localhost:3000/voter/myVotersList/${userid}`)
+            .then((res) => {
+                setvoterList(res.data?.data)
+            })
+            .catch((err) => {
+                console.log("Error sending voter request:", err)
+                alert("Failed to send request.");
+            })
+    }
+
+    const passedStatusMapping = {
+        1: 'New Request',
+        2: 'Admin forwards to EO',
+        3: 'EO approves/rejects'
+    }
+
+    const approvedStatusMapping = {
+        0: 'Rejected',
+        1: 'Approved'
+    }
 
     return (
         <>
-            <div className='container-fluid position-absolute' style={{ top: "20%" }}>
+            <div className='container-fluid position-absolute' style={{ top: "20%", overflowX: "auto", whiteSpace: "nowrap", width: "100%" }}>
                 <table className='table table-striped'>
                     <thead className='table-dark'>
                         <tr>
@@ -25,15 +46,16 @@ function ViewReq() {
                         </tr>
                     </thead>
                     <tbody>
-                        {voterList.map((item, index) => (
-                            <tr key={index}>
-                                <td>{item.Userid}</td>
-                                <td>{item.Userconsti}</td>
-                                <td>{item.passedStatus}</td>
-                                <td>{item.approvedStatus}</td>
-                                <td>{item.voterId}</td>
-                            </tr>
-                        ))}
+                        {voterList?.length > 0 &&
+                            voterList.map((item, index) => (
+                                <tr key={index}>
+                                    <td>{item.userid}</td>
+                                    <td>{item.constituency}</td>
+                                    <td>{passedStatusMapping[item.passedStatus]}</td>
+                                    <td>{approvedStatusMapping[item.approvedStatus]}</td>
+                                    <td>{item.voterId}</td>
+                                </tr>
+                            ))}
                     </tbody>
                 </table>
             </div>

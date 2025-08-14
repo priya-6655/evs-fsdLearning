@@ -1,26 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import profile from '../assets/candiprofile.png'
+import axios from 'axios'
 
 function ViewCandiParty() {
     const [partylist, setpartylist] = useState([])
-    const [candidate, setCandidate] = useState([])
     const [selectedParty, setselectedParty] = useState('')
     const [filteredData, setFilteredData] = useState([])
 
     useEffect(() => {
-        const storedData = JSON.parse(localStorage.getItem('partyDetails')) || []
-        setpartylist(storedData)
-
-        const savedCandi = JSON.parse(localStorage.getItem('candidateDB')) || []
-        setCandidate(savedCandi)
+        axios.get('http://localhost:3000/party/viewParty').then(res => {
+            setpartylist(res.data.data)
+        }).catch(err => {
+            console.log(err)
+        })
     }, [])
 
     function partyWiseCandi() {
-        console.log("Selected Party:", selectedParty)
-        console.log("All Candidates:", candidate)
-        const filtered = candidate.filter(candidate => candidate.partyName === selectedParty)
-        console.log("Filtered Candidates:", filtered)
-        setFilteredData(filtered)
+        axios.post("http://localhost:3000/candidateDetails/partyWiseCandi", { partyKey: selectedParty })
+            .then(res => {
+                console.log("Filltered Candidates:", res.data.data)
+                setFilteredData(res.data.data)
+            })
+            .catch(err => {
+                console.log(err, "Error fetching candidate by party")
+                alert("Failed to fetch candidate data")
+            })
     }
     return (
         <>
@@ -35,7 +39,7 @@ function ViewCandiParty() {
                             <option value=''>select PartyName</option>
 
                             {partylist.map((item, index) => (
-                                <option key={index} value={item.partyName}>{item.partyName}</option>
+                                <option key={index} value={item.partyid}>{item.partyName}</option>
                             ))}
                         </select>
 
@@ -46,10 +50,10 @@ function ViewCandiParty() {
                                 <table className='table table-bordered table-striped'>
                                     <thead className='table-dark'>
                                         <tr>
-                                            <th>Candidate Id</th>
-                                            <th>Name</th>
-                                            <th>Election Id</th>
-                                            <th>Party Id</th>
+                                            <th>S.No</th>
+                                            <th>Candidate Name</th>
+                                            <th>Election Name</th>
+                                            <th>Party Name</th>
                                             <th>DOB</th>
                                             <th>Email</th>
                                             <th>Address</th>
@@ -62,16 +66,16 @@ function ViewCandiParty() {
                                     <tbody>
                                         {filteredData.map((item, index) => (
                                             <tr key={index}>
-                                                <td>{item.candidateId}</td>
-                                                <td>{item.name}</td>
-                                                <td>{item.electionId}</td>
-                                                <td>{item.partyId}</td>
-                                                <td>{item.dob}</td>
-                                                <td>{item.email}</td>
-                                                <td>{item.address}</td>
-                                                <td>{item.district}</td>
-                                                <td>{item.constituency}</td>
-                                                <td>{item.contact}</td>
+                                                <td>{index + 1}</td>
+                                                <td>{item.candiName}</td>
+                                                <td>{item.election?.electName}</td>
+                                                <td>{item.party?.partyName}</td>
+                                                <td>{item.candiDob}</td>
+                                                <td>{item.candiMail}</td>
+                                                <td>{item.candiAddress}</td>
+                                                <td>{item.candiDist}</td>
+                                                <td>{item.candiConsti}</td>
+                                                <td>{item.candiContact}</td>
                                             </tr>
                                         ))}
                                     </tbody>

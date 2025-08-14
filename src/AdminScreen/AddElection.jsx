@@ -15,6 +15,7 @@ import ViewCandiParty from './ViewCandiParty'
 import ViewVoterReq from './ViewVoterReq'
 import { useDispatch } from 'react-redux'
 import { USER_TYPES } from '../Store/ActionTypes/UserTypes'
+import UncountedResults from './UncountedResults'
 
 
 function AddElection() {
@@ -24,16 +25,10 @@ function AddElection() {
     const [selectPage, setselectPage] = useState("image")
 
     const [showSidebar, setShowSidebar] = useState(false)
-    const [viewedData, setViewedData] = useState([])
+
 
     const toggleSidebar = () => setShowSidebar(!showSidebar);
     const closeSidebar = () => setShowSidebar(false);
-
-    const [viewParty, setviewParty] = useState([])
-
-    const [viewCandi, setviwedCandi] = useState([])
-
-    const [voterReq, setvoterReq] = useState([])
 
     const handleSelect = (path) => {
         closeSidebar();
@@ -42,11 +37,6 @@ function AddElection() {
         }
         else if (path === 'view') {
 
-            const savedItem = JSON.parse(localStorage.getItem('electData')) || []
-            const today = new Date().toISOString().split('T')[0];
-            const upcoming = savedItem.filter(item => item.date > today)
-
-            setViewedData(upcoming)
             setselectPage('view')
         }
         else if (path === 'viewall') {
@@ -57,18 +47,12 @@ function AddElection() {
             setselectPage('partyAdd')
         }
         else if (path === 'partyView') {
-            const storedParty = JSON.parse(localStorage.getItem('partyDetails')) || []
-
-            setviewParty(storedParty)
             setselectPage('partyView')
         }
         else if (path === 'CandiAssign') {
             setselectPage('CandiAssign')
         }
         else if (path === 'CandiView') {
-            const saveCandiData = JSON.parse(localStorage.getItem('candidateDB')) || []
-
-            setviwedCandi(saveCandiData)
             setselectPage('CandiView')
         }
         else if (path === 'ViewPartyCandi') {
@@ -76,6 +60,9 @@ function AddElection() {
         }
         else if (path === 'viewVoterRequest') {
             setselectPage("viewVoterRequest")
+        }
+        else if (path === 'uncounted') {
+            setselectPage("uncounted")
         }
     };
     return (
@@ -94,7 +81,6 @@ function AddElection() {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="d-flex ms-auto gap-3">
-                        <button type="button" className="btn btn-success px-2" onClick={() => navigate('/')}>Home</button>
                         <button type="button" className="btn btn-success px-2" onClick={() => {
                             dispatch({ type: USER_TYPES.USER_LOGOUT })
                             navigate('/Login')
@@ -153,7 +139,7 @@ function AddElection() {
 
                                 <li>
                                     <select className="form-select mt-5 bg-dark text-danger" onChange={(e) => handleSelect(e.target.value)} defaultValue="" style={{ border: "none" }}>
-                                        <option value="" disabled>Candidate/Party Details</option>
+                                        <option value="" disabled>Party wise candidate Details</option>
                                         <option value="ViewPartyCandi">View</option>
                                     </select>
                                 </li>
@@ -161,6 +147,7 @@ function AddElection() {
                                 <li>
                                     <select className="form-select mt-5 bg-dark text-danger" onChange={(e) => handleSelect(e.target.value)} defaultValue="" style={{ border: "none" }}>
                                         <option>Result</option>
+                                        <option value='uncounted'>Generate Result</option>
                                     </select>
                                 </li>
                             </ul>
@@ -175,14 +162,15 @@ function AddElection() {
                                 alt="imgGroup" className="img-fluid" style={{ objectFit: "cover", height: "80%", width: "100vw" }} />
                         )}
                         {selectPage === 'add' && <AddData />}
-                        {selectPage === 'view' && <ViewData data={viewedData} />}
+                        {selectPage === 'view' && <ViewData />}
                         {selectPage === 'viewall' && <Viewall />}
                         {selectPage === 'partyAdd' && <Partyadd />}
-                        {selectPage === 'partyView' && <Partyview partyData1={viewParty} />}
+                        {selectPage === 'partyView' && <Partyview />}
                         {selectPage === 'CandiAssign' && <AddCandidate />}
-                        {selectPage === 'CandiView' && <ViewCandidate dataCandidate={viewCandi} />}
+                        {selectPage === 'CandiView' && <ViewCandidate />}
                         {selectPage === 'ViewPartyCandi' && <ViewCandiParty />}
                         {selectPage === 'viewVoterRequest' && <ViewVoterReq />}
+                        {selectPage === 'uncounted' && <UncountedResults />}
                     </div>
                     <MediaCom />
                     <Footer />

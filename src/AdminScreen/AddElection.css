@@ -25,11 +25,19 @@ body {
 }
 
 #backTheme {
-    background: url("https://i.pinimg.com/736x/33/7d/26/337d268166f27600f0467e91460d824f.jpg");
+    background: url("https://www.shutterstock.com/shutterstock/videos/3831336567/thumb/1.jpg?ip=x480");
     background-repeat: no-repeat;
     background-size: cover;
     width: 100vw;
-    height: 92.3vh;
+    height: 100vh;
+}
+
+#AddPartyImg {
+    background: url("https://t3.ftcdn.net/jpg/04/21/38/82/360_F_421388221_q3pCB0QB6QFq6ka6eYJUBU7yRV4yBb9s.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100vw;
+    height: 100vh;
 }
 
 #backpic {
@@ -64,6 +72,14 @@ body {
 
 #indiaPic {
     background: url("https://static.vecteezy.com/system/resources/thumbnails/020/746/062/small/indian-tricolor-abstract-waves-background-with-silhouette-famous-monument-of-india-header-or-banner-design-vector.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100vw;
+    height: 92.3vh;
+}
+
+#uncountResultimg {
+    background: url("https://img.myloview.com/murals/15-august-india-independence-day-celebration-700-221187507.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     width: 100vw;

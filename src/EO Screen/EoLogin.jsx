@@ -1,47 +1,24 @@
-import React, { useState } from 'react'
-import './Login.css'
+
+import { useState } from 'react';
 import Logo from '../assets/evote-logo.png';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux'
-import { USER_TYPES } from '../Store/ActionTypes/UserTypes';
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 
-function Login() {
+
+function EoLogin() {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const [user, setuser] = useState("")
-    const [pass, setpass] = useState("")
-    const [showPass, setshowPass] = useState(false)
+    const [ElectoralName, setElectoralName] = useState({ EOusrname: "", EOpassword: "" })
+    const [passIcon, setPassIcon] = useState(false)
     const [forgotPage, setforgotPage] = useState(false)
-    const [resetEmail, setResetEmail] = useState("")
+    const [forgotInputData, setForgotInputData] = useState("")
 
-    const apiToChangePassword = async (e) => {
-        // navigate('/ResetPassword')
-        e.preventDefault()
-        axios.post('http://localhost:3000/admin/resetPassword', { email: resetEmail }).then((response) => {
-            alert(response.data.message)
-            setResetEmail('')
-        }).catch((error) => {
-            alert(error.response?.data?.message || "Something went wrong!")
-            console.log(error)
-        })
-    }
 
-    const togglePassword = () => {
-        setshowPass(!showPass)
-    }
 
-    const loginForm = async () => {
-        const data = {
-            "user": user,
-            "pass": pass
-        }
+    const handleLogin = async () => {
         try {
-            const response = await axios.post('http://localhost:3000/admin/adminLogin', data)
-            if (response.status === 200) {
-                const { userName, role } = response.data
-                dispatch({ type: USER_TYPES.USER_LOGIN, payload: { userName, role } })
-                navigate('/admin')
+            const res = await axios.post('http://localhost:3000/ELectoral/EOLogin', ElectoralName)
+            if (res.status === 200) {
+                navigate('/EoPage')
             }
         } catch (err) {
             console.error("Login error:", err);
@@ -51,15 +28,23 @@ function Login() {
                 alert("Server error. Please try again.");
             }
         }
-
     }
 
-
-    function viewforgotPage(e) {
+    const viewforgotPage = (e) => {
         e.preventDefault()
         setforgotPage(true)
     }
 
+    const handleForgetPass = async (e) => {
+        e.preventDefault()
+        axios.post('http://localhost:3000/ELectoral/resetPassword', { email: forgotInputData }).then((response) => {
+            alert(response.data.message)
+            setForgotInputData('')
+        }).catch((error) => {
+            alert(error.response?.data?.message || "Something went wrong!")
+            console.log(error)
+        })
+    }
     return (
         <>
             <div className="container-fluid bg-warning d-flex align-items-center justify-content-center">
@@ -75,14 +60,17 @@ function Login() {
                     <div className="collapse navbar-collapse" id="myheader">
                         <ul className="navbar-nav ms-auto">
                             <li className="nav-item d-flex flex-row align-items-center">
-                                <img src="https://images.vexels.com/media/users/3/223204/isolated/preview/a603755020e70576e1f4a08b012835d4-home-icon-flat-design.png" alt="logout" className="img-fluid logout"
-                                />
+                                <img src="https://images.vexels.com/media/users/3/223204/isolated/preview/a603755020e70576e1f4a08b012835d4-home-icon-flat-design.png" alt="logout" className="img-fluid logout" />
                                 <a className="nav-link" href="#" onClick={() => navigate('/')}>Home</a>
                             </li>
+
                         </ul>
                     </div>
                 </div>
             </nav>
+
+
+
 
             <div className="d-flex flex-column flex-lg-row justify-content-between align-items-start w-100 px-3">
                 <div className="col-md-12 col-lg-6 mt-5">
@@ -91,7 +79,6 @@ function Login() {
                         <li><span className="h6">This platform allows eligible voters to cast their votes securely and conveniently from anywhere.</span></li>
                         <li>
                             <span className="h5 text text-dark">Features</span>
-
                             <ul className="mt-2">
                                 <li><span className="h6 text text-danger">Secure login</span></li>
                                 <li><span className="h6 text text-danger">Easy-to-use interface</span></li>
@@ -103,18 +90,20 @@ function Login() {
                     </ul>
                 </div>
 
-
                 {!forgotPage ? (
                     <div className="col-lg-5 col-md-12 mt-5 mx-lg-5 mx-auto">
                         <form className="p-4" style={{ backgroundColor: " rgb(49, 42, 51)", borderRadius: "10px" }}>
                             <div className="border border-danger bg-light p-4">
                                 <div className="d-flex flex-column gap-4">
-                                    <p className="text-center fs-5 fw-bold">LOGIN</p>
-                                    <input type="text" id="usrName" placeholder="Username" className="form-control" value={user} onChange={(e) => setuser(e.target.value)} />
+                                    <p className="text-center fs-5 fw-bold">ELECTORAL LOGIN</p>
+                                    <input type="text" id="EOusrName" placeholder="Username" className="form-control" value={ElectoralName.EOusrname}
+                                        onChange={(e) => setElectoralName({ ...ElectoralName, EOusrname: e.target.value })} />
 
                                     <div className='position-relative w-100'>
-                                        <input type={showPass ? "text" : "password"} id="password" placeholder="Password" className="form-control pe-5" value={pass} onChange={(e) => setpass(e.target.value)} />
-                                        <i className={`fa-solid ${showPass ? 'fa-eye' : 'fa-eye-slash'}`} style={{ right: "15px", top: "50%", cursor: 'pointer', position: "absolute", transform: "translateY(-50%)" }} onClick={togglePassword}></i>
+                                        <input type={passIcon ? "text" : "password"} id="EOpassword" placeholder="Password" className="form-control pe-5" value={ElectoralName.EOpassword}
+                                            onChange={(e) => setElectoralName({ ...ElectoralName, EOpassword: e.target.value })} />
+                                        <i className={`fa-solid ${passIcon ? 'fa-eye' : 'fa-eye-slash'}`} style={{ right: "15px", top: "50%", cursor: 'pointer', position: "absolute", transform: "translateY(-50%)" }}
+                                            onClick={() => setPassIcon(!passIcon)}></i>
                                     </div>
 
                                     <div className="d-flex justify-content-between align-items-center">
@@ -122,35 +111,37 @@ function Login() {
                                             <input type="checkbox" id="check" />
                                             <label>Remember me</label>
                                         </div>
-                                        <button type="button" className="btn btn-warning mx-4" onClick={() => loginForm()}>Login</button>
+                                        <button type="button" className="btn btn-warning mx-4" onClick={() => handleLogin()}>Login</button>
                                     </div>
-
                                 </div>
                             </div>
                             <div className="mt-2 text-center">
-                                <span className="text text-danger">Forget Password?<a href="#" className="mx-3 text-decoration-none" onClick={viewforgotPage}>Click here to reset it.</a></span>
+                                <span className="text text-danger">
+                                    Forget Password?
+                                    <a href="#" className="mx-3 text-decoration-none" onClick={viewforgotPage}>Click here to reset it.</a>
+                                </span>
                             </div>
                         </form>
+                    </div>
 
-                    </div >
                 ) : (
                     <div className="col-lg-5 col-md-12 mt-5 mx-lg-5 mx-auto">
                         <form className='p-5'>
                             <div className="border border-danger bg-light p-4">
                                 <p className="text-success fw-bold fs-4 text-center">Reset Password</p>
                                 <input type="email" placeholder="Enter your email" className="form-control mb-3"
-                                    value={resetEmail} onChange={(e) => setResetEmail(e.target.value)} />
+                                    value={forgotInputData} onChange={(e) => setForgotInputData(e.target.value)} />
                                 <div className='d-flex justify-content-center'>
-                                    <button className="btn btn-warning w-50 rounded-pill" onClick={apiToChangePassword}>Send Reset Link</button>
+                                    <button className="btn btn-warning w-50 rounded-pill" onClick={handleForgetPass} >Send Reset Link</button>
                                 </div>
                             </div>
                         </form>
                     </div>
                 )}
-            </div >
+            </div>
 
         </>
     )
 }
 
-export default Login
+export default EoLogin

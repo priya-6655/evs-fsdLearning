@@ -1,6 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 
 function AddCandidate() {
+    const location = useLocation()
+    const editCandi = location.state
+    const navigate = useNavigate()
+    const [election, setElection] = useState([]);
+    const [parties, setParties] = useState([]);
     const [addCandiData, setCandiData] = useState({
         candiName: "",
         candiMail: "",
@@ -8,33 +16,96 @@ function AddCandidate() {
         candiAddress: "",
         candiDist: "",
         candiConsti: "",
-        candiContact: ""
+        candiContact: "",
+        ElectKey: "",
+        partyKey: ""
     })
+    const [districtList, setDistrictList] = useState([])
+    const [constituenciesList, setConstituenciesList] = useState([])
 
-    function getCandiDB(e) {
+    useEffect(() => {
+        axios.get('http://localhost:3000/election/getUpcomingElection').then(res => {
+            setElection(res.data.data);
+        });
+
+        axios.get('http://localhost:3000/party/viewParty').then(res => {
+            setParties(res.data.data);
+        });
+        if (editCandi) {
+            setCandiData(editCandi)
+        }
+
+        getDistrict()
+    }, []);
+
+
+    const getDistrict = async () => {
+        try {
+            const result = await axios.get("http://localhost:3000/admin/districtList")
+            setDistrictList(result.data.districtList)
+            setCandiData({
+                ...addCandiData,
+                constituency: ""
+            })
+            console.log(result)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const getConstituencies = async (id) => {
+        try {
+            const result = await axios.get(`http://localhost:3000/admin/constituencyList/${id}`)
+            setConstituenciesList(result.data.results)
+            console.log(result)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    function getCandiDB(e, key = '') {
         setCandiData({
             ...addCandiData,
             [e.target.id]: e.target.value
         });
+
+        if (key === 'district') {
+            const value = districtList.filter(item => item.name === e.target.value);
+            console.log(value)
+            getConstituencies(value[0]?.id)
+        }
     }
 
-    function saveCandidate(e) {
+    const saveCandidate = async (e) => {
         e.preventDefault()
+        console.log("Submitting Data:", addCandiData);
+        try {
+            if (editCandi && editCandi.candidateId) {
+                const id = editCandi.candidateId
+                const res = await axios.put(`http://localhost:3000/candidate/editCandidate/${id}`, addCandiData)
+                alert(res.data.message)
+                navigate('/admin')
 
-        const getcandi = JSON.parse(localStorage.getItem('candidateDB')) || []
-        getcandi.push(addCandiData)
-        localStorage.setItem('candidateDB', JSON.stringify(getcandi))
-        alert("Candidate added successfully")
+            } else {
+                const response = await axios.post('http://localhost:3000/candidate/addCandidate', addCandiData);
+                alert(response.data.message)
+                setCandiData({
+                    candiName: "",
+                    ElectKey: "",
+                    partyKey: "",
+                    candiDist: "",
+                    candiConsti: "",
+                    candiDob: "",
+                    candiContact: "",
+                    candiAddress: "",
+                    candiMail: ""
+                })
+            }
+        } catch (error) {
+            console.log("Error adding candidate", error)
+            alert("Something went wrong.Please try again!")
+        }
 
-        setCandiData({
-            candiName: "",
-            candiMail: "",
-            candiDob: "",
-            candiDist: "",
-            candiContact: "",
-            candiConsti: "",
-            candiAddress: ""
-        })
     }
     return (
         <>
@@ -52,19 +123,29 @@ function AddCandidate() {
 
 
                         <div className="row mb-3">
-                            <label htmlFor="ElectKey" className="col-form-label col-sm-3 fw-bold">Election Id:</label>
+                            <label htmlFor="ElectKey" className="col-form-label col-sm-3 fw-bold">Election:</label>
                             <div className="col-sm-6">
-                                <select name='electId' id='ElectKey' className='w-100 p-2'>
-                                    <option value='' disabled>Select Id</option>
+                                <select id='ElectKey' className='w-100 p-2' value={addCandiData.ElectKey} onChange={getCandiDB}>
+                                    <option value="" disabled>Select Election</option>
+
+                                    {election.map((e, index) => (
+                                        <option key={index} value={e.electionid} >{e.electName}</option>
+                                    ))}
+
                                 </select>
                             </div>
                         </div>
 
                         <div className="row mb-3">
-                            <label htmlFor="partyKey" className="col-form-label col-sm-3 fw-bold">Party Id:</label>
+                            <label htmlFor="partyKey" className="col-form-label col-sm-3 fw-bold">Party:</label>
                             <div className="col-sm-6">
-                                <select name='partyId' id='partyKey' className='w-100 p-2'>
-                                    <option value='' disabled>Select Id</option>
+                                <select id='partyKey' className='w-100 p-2' value={addCandiData.partyKey} onChange={getCandiDB}>
+                                    <option value="" disabled>Select Party</option>
+
+                                    {parties.map((p, index) => (
+                                        <option key={index} value={p.partyid} >{p.partyName}</option>
+                                    ))}
+
                                 </select>
                             </div>
                         </div>
@@ -95,29 +176,16 @@ function AddCandidate() {
                             <label htmlFor="candiDist" className="col-form-label col-sm-3 fw-bold">District:</label>
 
                             <div className="col-sm-6">
-                                <select name="party-Name" id="candiDist" className="w-100 p-2" value={addCandiData.candiDist} onChange={getCandiDB}>
-                                    <option value="" disabled>Select District</option>
-                                    <option value="Ariyalur">Ariyalur</option>
-                                    <option value="Coimbatore">Coimbatore</option>
-                                    <option value="Chengalpattu">Chengalpattu</option>
-                                    <option value="chennai">Chennai</option>
-                                    <option value="Dindugul">Dindugul</option>
-                                    <option value="Erode">Erode</option>
-                                    <option value="Kanniyakumari">Kanniyakumari</option>
-                                    <option value="Kanchipuram">Kanchipuram</option>
-                                    <option value="Mayiladuturai">Mayiladuturai</option>
-                                    <option value="Namakkal">Namakkal</option>
-                                    <option value="Pudukkottai">Pudukkottai</option>
-                                    <option value="Ranipet">Ranipet</option>
-                                    <option value="Salem">Salem</option>
-                                    <option value="Sivagangai">Sivagangai</option>
-                                    <option value="Tiruvallur">Tiruvallur</option>
-                                    <option value="Thirupathur">Thirupathur</option>
-                                    <option value="Thanjavor">Thanjavor</option>
-                                    <option value="Tiruppur">Tiruppur</option>
-                                    <option value="Theni">Theni</option>
-                                    <option value="Viruthunagar">Viruthunagar</option>
-                                    <option value="Vellore">Vellore</option>
+                                <select className='form-select'
+                                    id="district"
+                                    value={addCandiData.district}
+                                    onChange={e => getCandiDB(e, 'district')}
+                                >
+                                    <option value="Select District" disabled selected>Select District</option>
+                                    {districtList.map((itm, idx) =>
+                                        <option
+                                            key={idx} value={itm.key}>{itm.name}</option>
+                                    )}
                                 </select>
                             </div>
 
@@ -126,7 +194,17 @@ function AddCandidate() {
                         <div className="row mb-3">
                             <label htmlFor="candiConsti" className="col-form-label col-sm-3 fw-bold">Constituency:</label>
                             <div className="col-sm-6">
-                                <input type="text" className="form-control" id="candiConsti" value={addCandiData.candiConsti} onChange={getCandiDB} />
+                                <select className='form-select'
+                                    value={addCandiData.constituency}
+                                    id='constituency'
+                                    onChange={e => getCandiDB(e)}
+                                >
+                                    <option value="Select Constituency" disabled selected>Select Constituency</option>
+                                    {constituenciesList.length > 0 && constituenciesList?.map((itm, idx) =>
+                                        <option
+                                            key={idx} value={itm}>{itm}</option>
+                                    )}
+                                </select>
                             </div>
                         </div>
 

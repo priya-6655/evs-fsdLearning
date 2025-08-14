@@ -1,38 +1,88 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Footer from '../LandingPage/Footer'
+import axios from 'axios';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 
 function AddData() {
-
+    const location = useLocation()
+    const editElect = location.state
     const [data, setdata] = useState({ electName: '', district: '', date: '', constituency: '', countingDate: '' })
+    const [districtList, setDistrictList] = useState([])
+    const [constituenciesList, setConstituenciesList] = useState([])
 
-    function getData(e) {
+    const navigate = useNavigate()
 
+    useEffect(() => {
+        if (editElect) {
+            setdata(editElect)
+        }
+
+        getDistrict()
+
+    }, [])
+
+    const getDistrict = async () => {
+        try {
+            const result = await axios.get("http://localhost:3000/admin/districtList")
+            setDistrictList(result.data.districtList)
+            setdata({
+                ...data,
+                constituency: ""
+            })
+            console.log(result)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const getConstituencies = async (id) => {
+        try {
+            const result = await axios.get(`http://localhost:3000/admin/constituencyList/${id}`)
+            setConstituenciesList(result.data.results)
+            console.log(result)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    function getData(e, key = '') {
         setdata({
             ...data,
             [e.target.id]: e.target.value
         });
+        if (key === 'district') {
+            const value = districtList.filter(item => item.name === e.target.value);
+            console.log(value)
+            getConstituencies(value[0]?.id)
+        }
     };
 
-    const saveData = (e) => {
+    const saveData = async (e) => {
         e.preventDefault();
-
-
-        const savedItem = JSON.parse(localStorage.getItem('electData')) || [];
-        savedItem.push(data)
-        localStorage.setItem('electData', JSON.stringify(savedItem))
-
-
-        console.log("Submitted Data:", data);
-        alert("Added successfully")
-
-        setdata({
-            electName: '',
-            district: '',
-            date: '',
-            constituency: '',
-            countingDate: ''
-        });
-
+        console.log(data)
+        try {
+            if (editElect && editElect.electionid) {
+                const id = editElect.electionid
+                const res = await axios.put(`http://localhost:3000/election/editElect/${id}`, data)
+                alert(res.data.message)
+                navigate('/admin')
+            }
+            else {
+                const res = await axios.post('http://localhost:3000/election/addelection', data)
+                alert(res.data.message)
+                setdata({
+                    electName: "",
+                    district: "",
+                    date: "",
+                    constituency: "",
+                    countingDate: ""
+                })
+            }
+        } catch (err) {
+            console.log(err)
+            alert(err.response?.data?.message || "Something went wrong")
+        }
     }
     return (
         <div>
@@ -43,14 +93,25 @@ function AddData() {
                     <div className="row mb-3">
                         <label htmlFor="electName" className="col-sm-6 col-form-label">Enter Election Name:</label>
                         <div className="col-sm-6">
-                            <input type="text" id="electName" className='w-100 col-form-control' required value={data.electName} onChange={getData} />
+                            <input type="text" id="electName" className='w-100 col-form-control' value={data.electName} onChange={getData} />
                         </div>
                     </div>
 
                     <div className="row mb-3">
                         <label htmlFor="electState" className="col-sm-6 col-form-label">Enter District:</label>
                         <div className="col-sm-6">
-                            <input type="text" id="district" className='w-100 col-form-control' required value={data.district} onChange={getData} />
+                            {/* <input type="text" id="district" className='w-100 col-form-control' value={data.district}  /> */}
+                            <select className='form-select'
+                                id="district"
+                                value={data.district}
+                                onChange={e => getData(e, 'district')}
+                            >
+                                <option value="Select District" disabled selected>Select District</option>
+                                {districtList.map((itm, idx) =>
+                                    <option
+                                        key={idx} value={itm.key}>{itm.name}</option>
+                                )}
+                            </select>
                         </div>
                     </div>
 
@@ -64,7 +125,18 @@ function AddData() {
                     <div className="row mb-3">
                         <label htmlFor="electConsti" className="col-sm-6 col-form-label">Enter Constituency:</label>
                         <div className="col-sm-6">
-                            <input type="text" id="constituency" className='w-100 col-form-control' value={data.constituency} onChange={getData} />
+                            {/* <input type="text" id="constituency" className='w-100 col-form-control' value={data.constituency} onChange={getData} /> */}
+                            <select className='form-select'
+                                value={data.constituency}
+                                id='constituency'
+                                onChange={e => getData(e)}
+                            >
+                                <option value="Select Constituency" disabled selected>Select Constituency</option>
+                                {constituenciesList.length > 0 && constituenciesList?.map((itm, idx) =>
+                                    <option
+                                        key={idx} value={itm}>{itm}</option>
+                                )}
+                            </select>
                         </div>
                     </div>
 

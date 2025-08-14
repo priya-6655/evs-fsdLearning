@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React, { useState } from 'react'
 
 function Viewall() {
@@ -5,22 +6,20 @@ function Viewall() {
     const [startDate, setstartDate] = useState('')
     const [endDate, setendDate] = useState('')
 
-    function findElect() {
-
-        const storedData = JSON.parse(localStorage.getItem('electData')) || []
-
-        const filtered = storedData.filter((item) => {
-            const itemDate = new Date(item.date)
-            const start = new Date(startDate)
-            const end = new Date(endDate)
-            return itemDate >= start && itemDate <= end
-        })
-
-        setAlldata(filtered);
+    const findElect = async () => {
+        try {
+            const response = await axios.post('http://localhost:3000/election/filterElection', {
+                startDate,
+                endDate
+            });
+            setAlldata(response.data.data)
+        } catch (error) {
+            console.log(error)
+        }
     }
     return (
         <>
-            <div className="container-fill mt-5" id="backTheme">
+            <div className="container-fill" id="backTheme">
 
                 <form action="">
                     <p className="text-center fs-4 fw-bold text-danger text-decoration-underline">View all election details</p>
@@ -57,11 +56,12 @@ function Viewall() {
                         <table className='table table-striped table-bordered table-hover'>
                             <thead className='table-dark'>
                                 <tr>
-                                    <td>Name</td>
-                                    <td>District</td>
-                                    <td>Date</td>
-                                    <td>Constitueny</td>
-                                    <td>Counting Date</td>
+                                    <th>S.No</th>
+                                    <th>Name</th>
+                                    <th>District</th>
+                                    <th>Date</th>
+                                    <th>Constitueny</th>
+                                    <th>Counting Date</th>
                                 </tr>
                             </thead>
 
@@ -69,6 +69,7 @@ function Viewall() {
                                 {Alldata.map((item, index) => (
 
                                     <tr key={index}>
+                                        <td>{index + 1}</td>
                                         <td>{item.electName}</td>
                                         <td>{item.district}</td>
                                         <td>{item.date}</td>

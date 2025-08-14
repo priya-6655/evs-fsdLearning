@@ -17,6 +17,9 @@ function Landingpage() {
     else if (selectedValue === 'UserOption') {
       navigate('/userlogin')
     }
+    else if (selectedValue === 'electoral-officer') {
+      navigate('/EoLogin')
+    }
   };
 
   return (

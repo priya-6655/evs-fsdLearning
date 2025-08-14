@@ -5,6 +5,7 @@ import logo from '../assets/evote-logo.png'
 import UserNavbar from './UserNavbar'
 import { useDispatch } from 'react-redux'
 import { VOTER_TYPES } from '../Store/ActionTypes/VoterTypes'
+import axios from 'axios'
 
 function UserLogin() {
     const navigate = useNavigate()
@@ -13,56 +14,69 @@ function UserLogin() {
     const [hidelog, sethidelog] = useState(true)
     const [Voter, setVoter] = useState('')
     const [password, setpassword] = useState('')
-    const [regUser, setregUser] = useState({ fname: "", lname: "", userDob: "", gender: "", street: "", location: "", city: "", state: "", pincode: "", mobile: "", email: "" })
+    const [regUser, setregUser] = useState({ firstName: "", lastName: "", userDOB: "", gender: "", street: "", location: "", city: "", state: "", pincode: "", mobile: "", email: "", password })
 
     function getuserData() {
         sethidelog(false)
         setuserData(true)
     }
 
-    function getUser() {
-        if (Voter === 'user' && password === 'user') {
+    const getUser = async (e) => {
+        e.preventDefault()
 
-            const loginAction = {
+        try {
+            const res = await axios.post('http://localhost:3000/user/login', {
+                userid: Voter,
+                password
+            })
+
+            const { name, role, userid, email, token } = res.data
+            console.log('login api response', userid)
+            sessionStorage.setItem("token", token)
+
+            dispatch({
                 type: VOTER_TYPES.VOTER_LOGIN,
-                payload: { name: Voter, role: "voter" }
-            }
-            console.log("Dispatching login action:", loginAction);
-
-            dispatch(loginAction);
+                payload: { name, role, userid, email }
+            })
             navigate('/user')
+        } catch (error) {
+            alert(error.response?.data?.message || "Invalid credentials");
         }
 
-        else {
-            alert("You are not authorized person")
-        }
     }
 
-    function regUserData(f) {
+
+    const regUserData = async (f) => {
         f.preventDefault()
 
-        const saveregister = JSON.parse(localStorage.getItem('UserRegister')) || []
-        saveregister.push(regUser)
-        localStorage.setItem('UserRegister', JSON.stringify(saveregister))
-
-        alert("Register Successfully")
+        try {
+            console.time("register");
+            const response = await axios.post('http://localhost:3000/user/userReg', regUser)
+            console.timeEnd("register");
+            alert(response.data.message)
+            setregUser({
+                firstName: "",
+                lastName: "",
+                userDOB: "",
+                gender: "",
+                street: "",
+                location: "",
+                city: "",
+                state: "",
+                pincode: "",
+                mobile: "",
+                email: "",
+                password: ""
+            })
+        } catch (error) {
+            console.log(error)
+            alert(error.response?.data?.message || "Something went wrong")
+        }
 
         sethidelog(true)
         setuserData(false)
 
-        setregUser({
-            fname: "",
-            lname: "",
-            userDob: "",
-            gender: "",
-            street: "",
-            location: "",
-            city: "",
-            state: "",
-            pincode: "",
-            mobile: "",
-            email: ""
-        })
+
     }
     return (
         <>
@@ -73,7 +87,34 @@ function UserLogin() {
                     <p className="mx-auto mt-1 fs-5 fw-bold">Electronic Voting System</p>
                 </div>
 
-                <UserNavbar />
+
+                {/* navbar */}
+                <div>
+                    <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
+                        <div className="container-fluid">
+                            <button type="button" className="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myheader">
+                                <span className="navbar-toggler-icon"></span>
+                            </button>
+
+
+                            <div className="collapse navbar-collapse justify-content-end" id="myheader">
+
+                                <ul className="navbar-nav">
+                                    <li className="nav-item d-flex align-items-center me-3">
+                                        <img src="https://png.pngtree.com/png-vector/20230213/ourmid/pngtree-circle-phone-call-icon-in-black-color-png-image_6596895.png" alt="Contact" className="img-fluid logout me-2" />
+                                        <span onClick={() => navigate('/contact')} className="nav-link pointspan">Contact</span>
+                                    </li>
+
+                                    <li className="nav-item d-flex align-items-center me-3">
+                                        <img src="https://www.freeiconspng.com/thumbs/about-us-icon/information-about-us-icon-10.png" alt="about" className="img-fluid logout me-2" />
+                                        <span onClick={() => navigate('/about')} className="nav-link pointspan">About Us</span>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
 
                 {/* login form */}
                 {hidelog &&
@@ -135,21 +176,21 @@ function UserLogin() {
                             <div className='row mb-3'>
                                 <label htmlFor='fname' className='col-form-label col-sm-3 fw-bold'>First Name:</label>
                                 <div className="col-sm-6">
-                                    <input type='text' className='form-control' id='fname' value={regUser.fname} onChange={(f) => setregUser({ ...regUser, fname: f.target.value })} />
+                                    <input type='text' className='form-control' id='firstName' value={regUser.firstName} onChange={(f) => setregUser({ ...regUser, firstName: f.target.value })} />
                                 </div>
                             </div>
 
                             <div className='row mb-3'>
                                 <label htmlFor='lname' className='col-form-label col-sm-3 fw-bold'>Last Name:</label>
                                 <div className='col-sm-6'>
-                                    <input type='text' className='form-control' id='lname' value={regUser.lname} onChange={(f) => setregUser({ ...regUser, lname: f.target.value })} />
+                                    <input type='text' className='form-control' id='lastName' value={regUser.lastName} onChange={(f) => setregUser({ ...regUser, lastName: f.target.value })} />
                                 </div>
                             </div>
 
                             <div className='row mb-3'>
                                 <label htmlFor='userDob' className='col-form-label col-sm-3 fw-bold'>DOB:</label>
                                 <div className='col-sm-6'>
-                                    <input type='date' className='form-control' id='userDob' value={regUser.userDob} onChange={(f) => setregUser({ ...regUser, userDob: f.target.value })} />
+                                    <input type='date' className='form-control' id='userDOB' value={regUser.userDOB} onChange={(f) => setregUser({ ...regUser, userDOB: f.target.value })} />
                                 </div>
                             </div>
 
@@ -197,7 +238,7 @@ function UserLogin() {
                             <div className='row mb-3'>
                                 <label htmlFor='state' className='col-form-label col-sm-3 fw-bold'>State:</label>
                                 <div className='col-sm-6'>
-                                    <input type='text' className='form-control' id='state' value={regUser.street} onChange={(f) => setregUser({ regUser, state: f.target.value })} />
+                                    <input type='text' className='form-control' id='state' value={regUser.state} onChange={(f) => setregUser({ ...regUser, state: f.target.value })} />
                                 </div>
                             </div>
 
@@ -225,7 +266,7 @@ function UserLogin() {
                             <div className='row mb-3'>
                                 <label htmlFor='pass' className='col-sm-3 fw-bold col-form-label'>Password:</label>
                                 <div className='col-sm-6'>
-                                    <input type='password' className='form-control' id='pass' />
+                                    <input type='password' className='form-control' id='password' value={regUser.password} onChange={(f) => setregUser({ ...regUser, password: f.target.value })} />
                                 </div>
                             </div>
 

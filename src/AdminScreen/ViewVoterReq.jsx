@@ -1,30 +1,31 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { VOTER_TYPES } from '../Store/ActionTypes/VoterTypes';
+import axios from 'axios';
 
 function ViewVoterReq() {
     const [viewreq, setviewreq] = useState([])
-    const { voterForm } = useSelector(state => state.voter);
-    const dispatch = useDispatch();
+
 
     useEffect(() => {
-        // const voterdata = JSON.parse(localStorage.getItem('voterDatas')) || []
-        setviewreq(voterForm)
-        // console.log(viewreq)
-    })
+        fetchVoterList()
+    }, [])
 
-    const handleVoter = (voter) => {
-        const updatedVoterInfo = voterForm.map((item) => {
-            if (item.Userid === voter.Userid) {
-                return {
-                    ...voter,
-                    passedStatus: 'Admin Viewed',
-                    approvedStatus: 'Passed to EO'
-                }
-            }
-            return item
-        })
-        dispatch({ type: VOTER_TYPES.UPDATE_VOTER_INFO, payload: updatedVoterInfo })
+    const fetchVoterList = () => {
+        axios.post(`http://localhost:3000/voter/getRequestBystatus`, { passedStatus: ['1', '2'] })
+            .then(response => {
+                setviewreq(response.data.data)
+            })
+    }
+
+    const handleVoter = (voter, status) => {
+        const request = { userid: voter.userid, passedStatus: status, approvedStatus: null }
+        axios.put('http://localhost:3000/voter/changeVoterStatus', request)
+            .then(response => {
+                fetchVoterList()
+                console.log(response)
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     return (
@@ -47,15 +48,22 @@ function ViewVoterReq() {
                     <tbody>
                         {viewreq.map((item, index) => (
                             <tr key={index}>
-                                <td>{item.Userid}</td>
-                                <td>{item.Username}</td>
-                                <td>{item.Userage}</td>
-                                <td>{item.Usergender}</td>
-                                <td>{item.Userconsti}</td>
-                                <td>{item.Useraddress}</td>
+                                <td>{item.userid}</td>
+                                <td>{item.userName}</td>
+                                <td>{item.userAge}</td>
+                                <td>{item.gender}</td>
+                                <td>{item.constituency}</td>
+                                <td>{item.address}</td>
+
                                 <td>
                                     <button
-                                        onClick={() => handleVoter(item)}
+                                        onClick={() => handleVoter(item, '2')}
+                                    >
+                                        {item.passedStatus === '2' ? 'viewed' : 'view'}
+                                    </button>
+
+                                    <button
+                                        onClick={() => handleVoter(item, '3')}
                                     >
                                         Pass to EO
                                     </button>

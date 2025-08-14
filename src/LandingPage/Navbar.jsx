@@ -29,7 +29,7 @@ function Navbar() {
 
                             <li className="nav-item d-flex flex-row align-items-center" style={{ cursor: 'pointer' }}>
                                 <img src='https://www.freeiconspng.com/thumbs/contact-icon-png/contact-icon-png-0.png' alt='about' style={{ height: "20px" }} />
-                                <span className="nav-link">Contact</span>
+                                <span className="nav-link" onClick={() => navigate('/contact')}>Contact</span>
                             </li>
                         </ul>
 

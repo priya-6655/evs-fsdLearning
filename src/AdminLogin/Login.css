@@ -10,14 +10,22 @@
 }
 
 .logout {
-    width: 30px;
-    height: 30px;
+    width: 15px;
+    height: 15px;
     border-radius: 30px;
     background-color: rgb(247, 146, 6);
     cursor: pointer;
 }
 
 #regImg {
+    background: url('https://t3.ftcdn.net/jpg/08/68/51/04/360_F_868510427_vsvN67LV1zSmLMyXMOFG05tRCmTAj1xL.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100vw;
+    height: 100vh;
+}
+
+#resetPassimg {
     background: url('https://t3.ftcdn.net/jpg/08/68/51/04/360_F_868510427_vsvN67LV1zSmLMyXMOFG05tRCmTAj1xL.jpg');
     background-size: cover;
     background-repeat: no-repeat;

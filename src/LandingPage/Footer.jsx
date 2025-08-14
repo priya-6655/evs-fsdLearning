@@ -3,7 +3,7 @@ import React from 'react'
 function Footer() {
     return (
         <>
-            <div className='container-fluid px-3 mb-0' style={{ backgroundColor: "rgba(13, 11, 173, 0.6)" }}>
+            <div className='container-fluid px-3' style={{ backgroundColor: "rgba(13, 11, 173, 0.6)", }}>
                 <div className='row'>
 
                     <div className='col-12 col-md-6 col-lg-4 mt-3 p-3' style={{ backgroundColor: "rgba(28, 7, 76, 0.6)", borderRadius: "5px" }}>

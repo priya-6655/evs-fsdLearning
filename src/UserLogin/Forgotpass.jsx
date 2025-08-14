@@ -1,12 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import UserNavbar from './UserNavbar'
 import logo from '../assets/evote-logo.png'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 function Forgotpass() {
+    const [getMail, setGetMail] = useState("")
+    const navigate = useNavigate()
 
-    function msgBox(e) {
+    function msgToMailBox(e) {
         e.preventDefault()
-        alert('Password reset link sent to your email!')
+        axios.post('http://localhost:3000/user/resetUserPassword', { email: getMail }).then((response) => {
+            alert(response.data.message)
+            setGetMail('')
+        }).catch((error) => {
+            alert(error.response?.data?.message || "Something went wrong!")
+            console.log(error)
+        })
     }
     return (
         <>
@@ -18,7 +28,39 @@ function Forgotpass() {
                     <p className="mx-auto mt-1 fs-5 fw-bold">Electronic Voting System</p>
                 </div>
 
-                <UserNavbar />
+
+
+                <div>
+                    <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
+                        <div className="container-fluid">
+                            <button type="button" className="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myheader">
+                                <span className="navbar-toggler-icon"></span>
+                            </button>
+
+
+                            <div className="collapse navbar-collapse justify-content-end" id="myheader">
+
+                                <ul className="navbar-nav">
+                                    <li className="nav-item d-flex align-items-center me-3">
+                                        <img src="https://png.pngtree.com/png-vector/20230213/ourmid/pngtree-circle-phone-call-icon-in-black-color-png-image_6596895.png" alt="Contact" className="img-fluid logout me-2" />
+                                        <span onClick={() => navigate('/contact')} className="nav-link pointspan">Contact</span>
+                                    </li>
+
+                                    <li className="nav-item d-flex align-items-center me-3">
+                                        <img src="https://www.freeiconspng.com/thumbs/about-us-icon/information-about-us-icon-10.png" alt="about" className="img-fluid logout me-2" />
+                                        <span onClick={() => navigate('/about')} className="nav-link pointspan">About Us</span>
+                                    </li>
+                                    <li className="nav-item d-flex align-items-center me-3">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="logout" className="img-fluid logout me-2" />
+                                        <span onClick={() => navigate('/userlogin')} className="nav-link pointspan">Home</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+
+
 
                 <div className='d-flex justify-content-center align-items-center'>
 
@@ -26,11 +68,12 @@ function Forgotpass() {
                         <form>
                             <p className='fs-4 fw-bold text-center'>Forgot Password?</p>
                             <div className='mb-4'>
-                                <input type='email' className='form-control' placeholder='Enter Your mail' />
+                                <input type='email' className='form-control' placeholder='Enter your mail'
+                                    value={getMail} onChange={(e) => setGetMail(e.target.value)} />
                             </div>
 
                             <div className='d-flex justify-content-center'>
-                                <button type='submit' className='btn btn-success w-25' onClick={msgBox}>Reset</button>
+                                <button type='submit' className='btn btn-success w-50' onClick={msgToMailBox}>Send Reset Link</button>
                             </div>
                         </form>
                     </div>
