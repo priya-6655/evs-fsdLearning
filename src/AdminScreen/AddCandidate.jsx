@@ -46,9 +46,8 @@ function AddCandidate() {
             setDistrictList(result.data.districtList)
             setCandiData({
                 ...addCandiData,
-                constituency: ""
+                candiConsti: ""
             })
-            console.log(result)
         } catch (error) {
             console.log(error)
         }
@@ -58,7 +57,6 @@ function AddCandidate() {
         try {
             const result = await axios.get(`${baseURL}/admin/constituencyList/${id}`)
             setConstituenciesList(result.data.results)
-            console.log(result)
         } catch (error) {
             console.log(error)
         }
@@ -72,14 +70,12 @@ function AddCandidate() {
 
         if (key === 'district') {
             const value = districtList.filter(item => item.name === e.target.value);
-            console.log(value)
             getConstituencies(value[0]?.id)
         }
     }
 
     const saveCandidate = async (e) => {
         e.preventDefault()
-        console.log("Submitting Data:", addCandiData);
         try {
             if (editCandi && editCandi.candidateId) {
                 const id = editCandi.candidateId
@@ -178,11 +174,11 @@ function AddCandidate() {
 
                             <div className="col-sm-6">
                                 <select className='form-select'
-                                    id="district"
-                                    value={addCandiData.district}
+                                    id="candiDist"
+                                    value={addCandiData.candiDist}
                                     onChange={e => getCandiDB(e, 'district')}
                                 >
-                                    <option value="Select District" disabled selected>Select District</option>
+                                    <option value="Select District" selected>Select District</option>
                                     {districtList.map((itm, idx) =>
                                         <option
                                             key={idx} value={itm.key}>{itm.name}</option>
@@ -196,11 +192,11 @@ function AddCandidate() {
                             <label htmlFor="candiConsti" className="col-form-label col-sm-3 fw-bold">Constituency:</label>
                             <div className="col-sm-6">
                                 <select className='form-select'
-                                    value={addCandiData.constituency}
-                                    id='constituency'
+                                    value={addCandiData.candiConsti}
+                                    id='candiConsti'
                                     onChange={e => getCandiDB(e)}
                                 >
-                                    <option value="Select Constituency" disabled selected>Select Constituency</option>
+                                    <option value="Select Constituency" selected>Select Constituency</option>
                                     {constituenciesList.length > 0 && constituenciesList?.map((itm, idx) =>
                                         <option
                                             key={idx} value={itm}>{itm}</option>
