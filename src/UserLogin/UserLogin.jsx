@@ -107,6 +107,11 @@ function UserLogin() {
                                         <span onClick={() => navigate('/about')} className="nav-link pointspan">About Us</span>
                                     </li>
 
+                                    <li className="nav-item d-flex align-items-center me-3">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="about" className="img-fluid logout me-2" />
+                                        <span onClick={() => navigate('/')} className="nav-link pointspan">Home</span>
+                                    </li>
+
                                 </ul>
                             </div>
                         </div>

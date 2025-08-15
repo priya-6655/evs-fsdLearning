@@ -106,8 +106,8 @@ function AddElection() {
                                     <select className="form-select mt-4 bg-dark text-danger mt-5" onChange={(e) => handleSelect(e.target.value)} defaultValue="" style={{ border: "none" }}>
                                         <option value="" disabled >Election</option>
                                         <option value="add" >Add</option>
-                                        <option value="view">View</option>
-                                        <option value="viewall">View all</option>
+                                        <option value="view">Upcoming</option>
+                                        <option value="viewall">View All</option>
                                     </select>
 
                                 </li>
