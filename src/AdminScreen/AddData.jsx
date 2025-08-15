@@ -69,7 +69,7 @@ function AddData() {
                 navigate('/admin')
             }
             else {
-                const res = await axios.post('${baseURL}/election/addelection', data)
+                const res = await axios.post(`${baseURL}/election/addelection`, data)
                 alert(res.data.message)
                 setdata({
                     electName: "",
