@@ -88,7 +88,7 @@ function AddCandidate() {
                 navigate('/admin')
 
             } else {
-                const response = await axios.post('${baseURL}/candidate/addCandidate', addCandiData);
+                const response = await axios.post(`${baseURL}/candidate/addCandidate`, addCandiData);
                 alert(response.data.message)
                 setCandiData({
                     candiName: "",
