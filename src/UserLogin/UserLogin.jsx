@@ -70,7 +70,7 @@ function UserLogin() {
             })
         } catch (error) {
             console.log(error)
-            alert(error.response?.data?.message || "Something went wrong")
+            alert(error.response?.data?.err || "Something went wrong")
         }
 
         sethidelog(true)
