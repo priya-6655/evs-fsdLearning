@@ -68,15 +68,12 @@ function UserLogin() {
                 email: "",
                 password: ""
             })
+            sethidelog(true)
+            setuserData(false)
         } catch (error) {
             console.log(error)
             alert(error.response?.data?.err || "Something went wrong")
         }
-
-        sethidelog(true)
-        setuserData(false)
-
-
     }
     return (
         <>
