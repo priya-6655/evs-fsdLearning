@@ -222,7 +222,7 @@ function EoMainPage() {
                             <p>No counted results found for this election.</p>
                         )
                     ) : (
-                        <p className='text-center text-muted'>Results have not been published yet.</p>
+                        <p className='text-center text-muted'>Results not been published yet.</p>
                     )}
                 </div>
 

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Logo from '../assets/evote-logo.png';
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
+import Loader from '../components/Loader';
 
 
 function EoLogin() {
@@ -11,15 +12,20 @@ function EoLogin() {
     const [passIcon, setPassIcon] = useState(false)
     const [forgotPage, setforgotPage] = useState(false)
     const [forgotInputData, setForgotInputData] = useState("")
+    const [isLoading, setLoading] = useState(false);
+
     const baseURL = import.meta.env.VITE_API_BASE_URL;
 
     const handleLogin = async () => {
+        setLoading(true);
         try {
             const res = await axios.post(`${baseURL}/ELectoral/EOLogin`, ElectoralName)
+            setLoading(false);
             if (res.status === 200) {
                 navigate('/EoPage')
             }
         } catch (err) {
+            setLoading(false);
             console.error("Login error:", err);
             if (err.response) {
                 alert(err.response.data.message);
@@ -36,10 +42,13 @@ function EoLogin() {
 
     const handleForgetPass = async (e) => {
         e.preventDefault()
+        setLoading(true);
         axios.post(`${baseURL}/ELectoral/resetPassword`, { email: forgotInputData }).then((response) => {
             alert(response.data.message)
             setForgotInputData('')
+            setLoading(false);
         }).catch((error) => {
+            setLoading(false);
             alert(error.response?.data?.message || "Something went wrong!")
             console.log(error)
         })
@@ -138,7 +147,7 @@ function EoLogin() {
                     </div>
                 )}
             </div>
-
+            <Loader show={isLoading} />
         </>
     )
 }

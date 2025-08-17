@@ -64,11 +64,7 @@ function ElectionSchedule({ searchQuery }) {
             return;
         }
 
-
         setVoteBtn(true)
-
-        console.log("Sending vote data:", data);
-
 
         axios.post(`${baseURL}/electionResults/addVote`, data).then(response => {
             console.log('response', response);
@@ -146,14 +142,13 @@ function ElectionSchedule({ searchQuery }) {
                         <tbody>
                             {vote.map((itm, idx) => {
                                 const symbolSrc = itm.symbol?.startsWith("data:image") ? itm.symbol : itm.symbol ? `data:image/png;base64,${itm.symbol}` : null
-
                                 return (
                                     <tr key={idx}>
                                         <td>{itm.candidateName}</td>
                                         <td>{itm.partyName}</td>
                                         <td>
                                             {symbolSrc ? (
-                                                <img src={symbolSrc} alt='Party Symbol' width='50px' height='50px' />
+                                                <img src={itm.symbol} alt='Party Symbol' width='50px' height='50px' />
                                             ) : (
                                                 <span className='text-muted'>No symbol</span>
                                             )}
