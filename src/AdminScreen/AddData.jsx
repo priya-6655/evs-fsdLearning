@@ -106,7 +106,7 @@ function AddData() {
                                 value={data.district}
                                 onChange={e => getData(e, 'district')}
                             >
-                                <option value="Select District" disabled selected>Select District</option>
+                                <option value="Select District" selected>Select District</option>
                                 {districtList.map((itm, idx) =>
                                     <option
                                         key={idx} value={itm.key}>{itm.name}</option>
@@ -131,7 +131,7 @@ function AddData() {
                                 id='constituency'
                                 onChange={e => getData(e)}
                             >
-                                <option value="Select Constituency" disabled selected>Select Constituency</option>
+                                <option value="Select Constituency" selected>Select Constituency</option>
                                 {constituenciesList.length > 0 && constituenciesList?.map((itm, idx) =>
                                     <option
                                         key={idx} value={itm}>{itm}</option>

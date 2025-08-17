@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
 import { USER_TYPES } from '../Store/ActionTypes/UserTypes';
 import axios from 'axios';
+import Loader from '../components/Loader';
 
 function Login() {
     const navigate = useNavigate();
@@ -14,15 +15,19 @@ function Login() {
     const [showPass, setshowPass] = useState(false)
     const [forgotPage, setforgotPage] = useState(false)
     const [resetEmail, setResetEmail] = useState("")
+    const [loading, setLoading] = useState(false);
 
     const apiToChangePassword = async (e) => {
         // navigate('/ResetPassword')
         e.preventDefault();
+        setLoading(true);
         const baseURL = import.meta.env.VITE_API_BASE_URL;
         axios.post(`${baseURL}/admin/resetPassword`, { email: resetEmail }).then((response) => {
             alert(response.data.message)
             setResetEmail('')
+            setLoading(false);
         }).catch((error) => {
+            setLoading(false);
             alert(error.response?.data?.message || "Something went wrong!")
             console.log(error)
         })
@@ -33,6 +38,7 @@ function Login() {
     }
 
     const loginForm = async () => {
+        setLoading(true);
         const data = {
             "user": user,
             "pass": pass
@@ -45,7 +51,9 @@ function Login() {
                 dispatch({ type: USER_TYPES.USER_LOGIN, payload: { userName, role } })
                 navigate('/admin')
             }
+            setLoading(false);
         } catch (err) {
+            setLoading(false);
             console.error("Login error:", err);
             if (err.response) {
                 alert(err.response.data.message);
@@ -150,7 +158,7 @@ function Login() {
                     </div>
                 )}
             </div >
-
+            <Loader show={loading} />
         </>
     )
 }

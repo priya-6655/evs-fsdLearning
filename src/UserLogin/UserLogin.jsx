@@ -6,6 +6,7 @@ import UserNavbar from './UserNavbar'
 import { useDispatch } from 'react-redux'
 import { VOTER_TYPES } from '../Store/ActionTypes/VoterTypes'
 import axios from 'axios'
+import Loader from '../components/Loader'
 
 function UserLogin() {
     const navigate = useNavigate()
@@ -15,6 +16,8 @@ function UserLogin() {
     const [Voter, setVoter] = useState('')
     const [password, setpassword] = useState('')
     const [regUser, setregUser] = useState({ firstName: "", lastName: "", userDOB: "", gender: "", street: "", location: "", city: "", state: "", pincode: "", mobile: "", email: "", password })
+    const [loading, setLoading] = useState(false);
+
     const baseURL = import.meta.env.VITE_API_BASE_URL;
     function getuserData() {
         sethidelog(false)
@@ -23,7 +26,7 @@ function UserLogin() {
 
     const getUser = async (e) => {
         e.preventDefault()
-
+        setLoading(true);
         try {
             const res = await axios.post(`${baseURL}/user/login`, {
                 userid: Voter,
@@ -33,13 +36,14 @@ function UserLogin() {
             const { name, role, userid, email, token } = res.data
             console.log('login api response', userid)
             sessionStorage.setItem("token", token)
-
+            setLoading(false);
             dispatch({
                 type: VOTER_TYPES.VOTER_LOGIN,
                 payload: { name, role, userid, email }
             })
             navigate('/user')
         } catch (error) {
+            setLoading(false);
             alert(error.response?.data?.message || "Invalid credentials");
         }
 
@@ -48,7 +52,7 @@ function UserLogin() {
 
     const regUserData = async (f) => {
         f.preventDefault()
-
+        setLoading(true);
         try {
             console.time("register");
             const response = await axios.post(`${baseURL}/user/userReg`, regUser)
@@ -70,7 +74,9 @@ function UserLogin() {
             })
             sethidelog(true)
             setuserData(false)
+            setLoading(false);
         } catch (error) {
+            setLoading(false);
             console.log(error)
             alert(error.response?.data?.err || "Something went wrong")
         }
@@ -280,6 +286,8 @@ function UserLogin() {
                     </div>
                 }
             </div >
+
+            <Loader show={loading} />
         </>
     )
 }
