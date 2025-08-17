@@ -260,7 +260,7 @@ function UserLogin() {
                             <div className='row mb-3'>
                                 <label htmlFor='mobile' className='col-form-label col-sm-3 fw-bold'>Mobile No:</label>
                                 <div className='col-sm-6'>
-                                    <input type='number' className='form-control' id='mobile' value={regUser.mobile} onChange={(f) => setregUser({ ...regUser, mobile: f.target.value })} />
+                                    <input type='tel' maxLength={10} className='form-control' id='mobile' value={regUser.mobile} onChange={(f) => setregUser({ ...regUser, mobile: f.target.value })} />
                                 </div>
                             </div>
 
