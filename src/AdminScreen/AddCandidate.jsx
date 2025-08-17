@@ -208,7 +208,7 @@ function AddCandidate() {
                         <div className="row mb-3">
                             <label htmlFor="candiContact" className="col-form-label col-sm-3 fw-bold">Contact:</label>
                             <div className="col-sm-6">
-                                <input type="tel" id="candiContact" className="form-control" value={addCandiData.candiContact} onChange={getCandiDB} />
+                                <input type="tel" maxLength={10} id="candiContact" className="form-control" value={addCandiData.candiContact} onChange={getCandiDB} />
                             </div>
                         </div>
 

@@ -15,7 +15,7 @@ function UncountedResults() {
     }, [])
 
     const fetchAPI = () => {
-        axios.get(`${baseURL}/election/getUpcomingElection`)
+        axios.get(`${baseURL}/election/getVotedElection`)
             .then(res => {
                 setElections(res.data.data)
             })
