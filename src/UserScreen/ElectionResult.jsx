@@ -13,7 +13,7 @@ function ElectionResult() {
     }, [])
 
     const fetchAPI = () => {
-        axios.get(`${baseURL}/election/getUpcomingElection`)
+        axios.get(`${baseURL}/election/getVotedElection`)
             .then(res => {
                 setElections(res.data.data)
             })
@@ -58,7 +58,9 @@ function ElectionResult() {
                                 <tr>
                                     <th>Party</th>
                                     <th>District</th>
+                                    <th>Candidate Name</th>
                                     <th>Total Votes</th>
+                                    <th>Result</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -66,7 +68,9 @@ function ElectionResult() {
                                     <tr key={index}>
                                         <td>{item.partyName}</td>
                                         <td>{item.district}</td>
+                                        <td>{item.candidateName}</td>
                                         <td>{item.totalVotes}</td>
+                                        <td>{item.result}</td>
                                     </tr>
                                 ))}
                             </tbody>
