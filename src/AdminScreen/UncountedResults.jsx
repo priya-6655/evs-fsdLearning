@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -7,9 +8,12 @@ function UncountedResults() {
     const [selectedElectionId, setSelectedElectionId] = useState('')
     const [results, setResults] = useState([])
     const [selectedDistrict, setSelectedDistrict] = useState('')
+    const [selectedConstituency, setSelectedConstituency] = useState('')
     const [selectedParty, setSelectedParty] = useState('')
+
     const navigate = useNavigate()
     const baseURL = import.meta.env.VITE_API_BASE_URL;
+
     useEffect(() => {
         fetchAPI();
     }, [])
@@ -35,6 +39,7 @@ function UncountedResults() {
 
 
     const uniqueDistricts = [...new Set(results.map(r => r.election?.district))];
+    const uniqueConstituency = [...new Set(results.map(r => r.election?.constituency))];
     const uniqueParties = [...new Set(results.map(r => r.candidate?.party?.partyName))];
 
 
@@ -71,6 +76,16 @@ function UncountedResults() {
                 <select className='form-select mt-4' value={selectedDistrict} onChange={(e) => setSelectedDistrict(e.target.value)}>
                     <option value="">All Districts</option>
                     {uniqueDistricts.map((dist, idx) => (
+                        <option key={idx} value={dist}>{dist}</option>
+                    ))}
+                </select>
+            )}
+
+            {/* Constituency Dropdown */}
+            {results.length > 0 && (
+                <select className='form-select mt-4' value={selectedConstituency} onChange={(e) => setSelectedConstituency(e.target.value)}>
+                    <option value="">All Constituencies</option>
+                    {uniqueConstituency.map((dist, idx) => (
                         <option key={idx} value={dist}>{dist}</option>
                     ))}
                 </select>

@@ -10,11 +10,12 @@ function CountedResult() {
     const [isPublished, setIsPublished] = useState(false);
     const navigate = useNavigate()
     const baseURL = import.meta.env.VITE_API_BASE_URL;
+
     useEffect(() => {
         axios.get(`${baseURL}/electionResults/getCountedResults/${electionId}`)
             .then(res => setVoteCounts(res.data))
             .catch(err => console.log(err));
-    }, [electionId]);
+    }, []);
 
     const handlePublishResult = () => {
         axios.put(`${baseURL}/electionResults/publishedResult/${electionId}`)
